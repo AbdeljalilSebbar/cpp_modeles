@@ -1,16 +1,28 @@
-SRC= main.cpp HumanB.cpp HumanA.cpp Weapon.cpp
-OBJ= $(SRC:.cpp=.o)
-COMPILE= c++
-CFLAGS= -Wall -Wextra -Werror -std=c++98
-NAME= Unnecessary_violence
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/09/20 18:02:05 by abdsebba          #+#    #+#              #
+#    Updated: 2025/09/20 18:02:06 by abdsebba         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+COMPILER=c++
+CPPFLAGS= -Wall -Wextra -Werror -std=c++98
+SRC=Weapon.cpp main.cpp HumanA.cpp HumanB.cpp
+OBJ=$(SRC:.cpp=.o)
+NAME=Human
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(COMPILE) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(COMPILER) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c HumanA.hpp HumanB.hpp Weapon.hpp
-	$(COMPILE) $(CFLAGS) -c $< -o $@
+%.o: %.cpp HumanA.hpp HumanB.hpp Weapon.hpp
+	$(COMPILER) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)

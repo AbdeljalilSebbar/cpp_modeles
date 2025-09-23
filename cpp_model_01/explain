@@ -1,0 +1,308 @@
+day01:
+
+ex00:
+        -knowing the constructor and Destructor and allocation on heap "new" and free "delete"?
+
+- Default constructor → no arguments → sets default values.
+- Parameterized constructor → has arguments → lets you control values when creating the object.
+- Constructor body → assigns values after object exists.
+- Initialization list → builds members with the correct values from the very beginning.
+- Destructor is called automatically; you don’t call it yourself in normal code.
+
+ex01:
+        -knowing how to take data from stack to heap?
+
+- create array of elements in heap (default constructor is called):
+ first create an temporary object on stack using parameterized constructor, then
+ call assignment operator that copy not move copy its data to heap, then
+ temporary object’s lifetime ends so calling Destructor for stack.
+
+ex02:
+        -knowing the reference and pointer and address how to insiallize them?
+
+- & operator → get address of variable (or define reference).
+- Pointer * → stores address, can be changed, can be null.
+- Reference & → alias/nickname, must be initialized, cannot be changed.
+- Dereferencing * → access value from pointer.
+- Pointers and references can be used for variables and objects.
+
+- Pointer = “address holder” → very flexible, can point anywhere, can be null.
+- Reference = “nickname” → simpler, guaranteed to exist, safer.
+- Use references when you just want to refer to something.
+- Use pointers when you need flexibility, dynamic memory, or nullable objects.
+
+ex03:
+        -knowing how to use reference on code how it work on general?
+
+'const std::string &getType( void );'
+- This function returns a read-only reference to an existing string, usually a member of the object,
+   allowing access without copying. It does not return a reference to a temporary stack variable.
+- In this:
+   HumanA = “born with a weapon, never without.” (reference)
+   HumanB = “may get a weapon later, or even none at all.” (pointer)
+- Use a reference to Weapon when the object must always have a weapon (no null possibility, guaranteed at construction).
+- Use a pointer to Weapon when the object may or may not have a weapon, or when the weapon can be assigned later.
+
+ex04:
+        -knowing about files then ifstream ofstream, find(), 'std::string::npos', close()?
+
+- A file is a place on your computer’s storage (disk/SSD) where data is stored.
+- Unlike variables in memory (RAM), files keep data even after the program stops.
+
+- 'std::ifstream' is a C++ object, it create on object , and "std::ifstream" is a datatype
+- Inside, it hides a file descriptor (on Linux/Unix) or a file handle (on Windows).
+- That’s why you can just do infile >> data; instead of worrying about raw system calls.
+- 'std::string::npos' -> When a string function like find can’t find what you’re looking for, it returns npos,
+   You can think of it as a special value meaning the position doesn’t exist, On most systems, it’s the largest possible size_t number means not found.
+
+ex05:
+        -the function complain.cpp should understand what's going there, and pointers to member functions?
+
+- Regular function pointer → points to a free function.
+- Pointer to member → points to a function inside a class, must be called on an object.
+- Syntax: (obj.*ptr)() or (objPtr->*ptr)().
+- Useful for callbacks, dynamic dispatch without virtual, or function tables.
+- Step by step meaning:
+    findedlevel[i] → pick the i-th pointer to a member function (&Harl::debug, &Harl::info, etc.).
+    this->*findedlevel[i] → dereference that pointer and bind it to the current object (this).
+    (...) → actually call the function.
+👉 In plain words:
+    “Call the function stored in findedlevel[i] on the current Harl object.”
+
+*- SOME EXERCISES::
+
+🔹 Exercise 1 — Basic pointer to member
+Create a class Animal with two member functions:
+void sound() → prints "Animal sound".
+void move() → prints "Animal moves".
+👉 Task:
+Declare a pointer to member function of type void (Animal::*)().
+Point it to sound first, call it.
+Then point it to move, and call it.
+
+🔹 Exercise 2 — Parameters
+Create a class Math with:
+int add(int a, int b) → returns sum.
+int mul(int a, int b) → returns product.
+👉 Task:
+Declare a pointer to member function of type int (Math::*)(int, int).
+Use it to call both functions through an object.
+
+🔹 Exercise 3 — Using object pointer
+Create a class Car with a member function:
+void drive(int km) → prints "Driving X km".
+👉 Task:
+Create a Car object on the heap (new).
+Use a pointer-to-member-function to call drive(50) through the heap pointer.
+
+🔹 Exercise 4 — Function table
+Create a class Calculator with:
+int add(int, int)
+int sub(int, int)
+int mul(int, int)
+int div(int, int)
+👉 Task:
+Make an array of pointers-to-member-functions for these four.
+Write a loop that calls each one with (10, 5) and prints the result.
+
+🔹 Exercise 5 — Bonus (challenging)
+Create a class Menu with functions:
+void option1()
+void option2()
+void option3()
+👉 Task:
+Create a mapping from an integer choice (1, 2, 3) to the correct function pointer.
+Ask the user for input, then call the correct member function using the pointer-to-member.
+
+
+
+
+
+🚀 C++ Day 01: From Constructors to Pointers-to-Member Functions
+
+Learning C++ can feel overwhelming at first, but if you take it step by step, the pieces start to connect beautifully.
+In this post, I’ll share what I’ve learned on Day 01 of my C++ journey. We’ll cover:
+- Constructors & Destructors
+- Heap vs Stack memory
+- References vs Pointers
+- File I/O basics
+- Pointers to Member Functions (with exercises!)
+
+🔹 EX00: Constructors, Destructors, and Memory Allocation
+-> Constructors
+- Default constructor → no arguments → sets default values.
+- Parameterized constructor → takes arguments → lets you control values.
+- Initialization list → initializes members before the body runs (better & faster).
+Example:
+class Zombie {
+public:
+        Zombie() { std::cout << "Default constructor\n"; }
+        Zombie(std::string n) : name(n) { std::cout << "Parameterized constructor\n"; }
+        ~Zombie() { std::cout << "Destructor called\n"; }
+private:
+        std::string name;
+};
+-> Destructor
+- Runs automatically when the object’s lifetime ends.
+- You don’t call it manually (except in rare advanced cases).
+-> Heap allocation
+- Use new to create objects on the heap.
+- Use delete to free them.
+Example:
+Zombie* z = new Zombie("HeapZombie");
+delete z;  // Destructor runs here
+
+🔹 EX01: Moving Data from Stack to Heap
+-> When you create an array of objects on the heap, something interesting happens:
+Zombie* horde = new Zombie[5];  // calls default constructor 5 times
+-> Now, if you assign:
+horde[i] = Zombie("ABDE");
+-> Steps:
+1. Temporary object is created on the stack using the parameterized constructor.
+2. That temporary object is copied into the heap array.
+3. Temporary is destroyed → destructor is called.
+👉 This explains why you sometimes see extra “constructor/destructor” calls in the logs.
+
+🔹 EX02: References, Pointers, and Addresses
+- '&' → get address or define reference.
+- '*' → pointer that stores an address.
+- Reference = nickname (must be initialized, can’t be null).
+- Pointer = address holder (flexible, can be null, can point anywhere).
+Example:
+int x = 10;       // sample variable
+int* p = &x;      // pointer
+int& r = x;       // reference
+*p = 20;          // change through pointer
+r = 30;           // change through reference
+std::cout << x;   // prints 30
+👉 Rule of thumb:
+- Use reference when something must exist and you don’t want nulls.
+- Use pointer when it’s optional or you want dynamic behavior.
+
+🔹 ex03: References in Practice
+Example function:
+const std::string& getType();
+- Returns a read-only reference to an internal string.
+- No copy → efficient.
+- Caller can read but not modify.
+-> Analogy with Humans and Weapons:
+- HumanA: always has a weapon → store a reference.
+- HumanB: may or may not have a weapon → store a pointer.
+
+🔹 ex04: Files in C++
+Files are different from variables: they survive after your program ends.
+- std::ifstream → for reading.
+- std::ofstream → for writing.
+- Under the hood, they use OS-level file descriptors/handles.
+Example:
+std::ifstream infile("input.txt");
+std::string line;
+while (std::getline(infile, line)) {
+    std::cout << line << std::endl;
+}
+infile.close();
+-> String utilities
+- find() → search for substring.
+- substr() → extract part of a string.
+- std::string::npos → special value meaning “not found”.
+if (line.find("hello") == std::string::npos) {
+    std::cout << "Not found!\n";
+}
+
+🔹 ex05: Pointers to Member Functions
+-> Normal function pointer:
+void (*fptr)() = &someFunction;
+-> Pointer to member function:
+void (ClassName::*ptr)();
+-> Call syntax:
+- (obj.*ptr)() if you have an object.
+- (objPtr->*ptr)() if you have a pointer to an object.
+👉 Useful for menus, callbacks, calculators.
+
+
+📝 Exercises:
+
+🔹 Exercise 1 — Basic pointer to member
+class Animal {
+public:
+    void sound() { std::cout << "Animal sound\n"; }
+    void move() { std::cout << "Animal moves\n"; }
+};
+
+Animal a;
+void (Animal::*ptr)() = &Animal::sound;
+(a.*ptr)();   // Animal sound
+ptr = &Animal::move;
+(a.*ptr)();   // Animal moves
+
+🔹 Exercise 2 — Parameters
+class Math {
+public:
+    int add(int a, int b) { return a + b; }
+    int mul(int a, int b) { return a * b; }
+};
+
+Math m;
+int (Math::*op)(int,int) = &Math::add;
+std::cout << (m.*op)(10,20) << "\n"; // 30
+op = &Math::mul;
+std::cout << (m.*op)(10,20) << "\n"; // 200
+
+🔹 Exercise 3 — Using object pointer
+class Car {
+public:
+    void drive(int km) { std::cout << "Driving " << km << " km\n"; }
+};
+
+Car* c = new Car;
+void (Car::*drivePtr)(int) = &Car::drive;
+(c->*drivePtr)(50);
+delete c;
+
+🔹 Exercise 4 — Function table
+class Calculator {
+public:
+    int add(int a, int b) { return a + b; }
+    int sub(int a, int b) { return a - b; }
+    int mul(int a, int b) { return a * b; }
+    int div(int a, int b) { return a / b; }
+};
+
+Calculator c;
+int (Calculator::*ops[])(int,int) = {
+    &Calculator::add, &Calculator::sub, &Calculator::mul, &Calculator::div
+};
+
+for (int i=0; i<4; i++)
+    std::cout << (c.*ops[i])(10, 5) << "\n";
+
+🔹 Exercise 5 — Bonus Menu
+class Menu {
+public:
+    void option1() { std::cout << "Option 1\n"; }
+    void option2() { std::cout << "Option 2\n"; }
+    void option3() { std::cout << "Option 3\n"; }
+};
+
+Menu menu;
+void (Menu::*opts[])(void) = { &Menu::option1, &Menu::option2, &Menu::option3 };
+
+int choice;
+std::cout << "Enter choice (1-3): ";
+std::cin >> choice;
+
+if (choice >= 1 && choice <= 3)
+    (menu.*opts[choice - 1])();
+else
+    std::cout << "Invalid choice\n";
+
+
+🎯 Final Thoughts:
+->On Day 01, I learned:
+- How objects are created and destroyed.
+- The difference between stack and heap.
+- When to use references vs pointers.
+- Basics of file I/O.
+- How to use pointers to member functions to build flexible programs.
+This is just the first step in mastering C++.
+The deeper I go, the more I see how these concepts connect together.

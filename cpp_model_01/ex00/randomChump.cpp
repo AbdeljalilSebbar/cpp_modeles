@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   randomChump.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/20 18:01:02 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/09/20 18:01:03 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Zombie.hpp"
 
-void randomChump(std::string name)
+void randomChump( std::string name )
 {
-    Zombie c1(name);
-
-    c1.announce();
+    Zombie z2(name);
+    z2.announce();
 }
