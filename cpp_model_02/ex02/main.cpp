@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/20 18:06:28 by abdsebba          #+#    #+#             */
-/*   Updated: 2025/09/20 19:44:22 by abdsebba         ###   ########.fr       */
+/*   Created: 2025/10/02 14:50:11 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/02 14:50:12 by abdsebba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FIXED_HPP
-#define FIXED_HPP
+#include "Fixed.hpp"
 
-#include <iostream>
-
-class Fixed
+int main(void)
 {
-	private:
-		int fixedNumber;
-		static const int numberFraction;
-	public:
-		Fixed();
-		Fixed(const Fixed &number); // what is copy constructor
-		int getRawBits( void ) const; // learn about this
-		void setRawBits( int const raw );
-		Fixed &operator=(const Fixed& other);
-		~Fixed();
-};
+	Fixed a;
+	Fixed m(10);
+	Fixed g(10);
+	Fixed const b( Fixed(5.05f) * Fixed(2) );
 
-#endif
+	std::cout << a << std::endl;
+	std::cout << ++a << std::endl;
+	std::cout << a << std::endl;
+	std::cout << a++ << std::endl;
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << Fixed::max(a, b) << std::endl;
+
+	return 0;
+}

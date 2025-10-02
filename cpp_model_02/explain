@@ -1,0 +1,426 @@
+day02:
+
+ex00:
+		- knowing about 'fixed-point numbers!', float in memory, mean's of numbeeFraction, why shift '1<<8', define operators, 'const';
+
+ex01:
+		- knowing about multiple and suptraction, what's 'roundf()', cast in return type, operator '<<';
+
+ex02:
+		- knowing about increment and decrement, multiple and devision plus and suptrac operator;
+
+
+=============  INFORMATION  ==============
+
+******************************************** ex00: ********************************************
+## 1️⃣ What are **fixed-point numbers**?
+
+* **Definition:** A fixed-point number stores a **real number as an integer**, with a fixed number of bits representing the fractional part.
+
+* **Why it exists:**
+
+	1. Computers historically lacked fast floating-point hardware.
+	2. Integer math is faster and predictable.
+	3. Useful in **embedded systems, games, audio, financial calculations**.
+
+* **Example:**
+	```
+	Number of fractional bits = 8
+	Scaling factor = 2^8 = 256
+
+	Real value = 3.5
+	Stored integer = 3.5 * 256 = 896
+	Back to real = 896 / 256 = 3.5
+	```
+* **Mental picture:**
+	```
+	Ruler with ticks of size 1/256 ≈ 0.00390625
+	0      0.0039     0.0078 ... 3.5
+	```
+---
+
+## 2️⃣ How are **floats stored in memory**?
+* **32-bit float (IEEE-754)** has 3 parts:
+
+	| Bits | Purpose                    |
+	| ---- | -------------------------- |
+	| 1    | Sign (0 = +, 1 = -)        |
+	| 8    | Exponent (with bias 127)   |
+	| 23   | Mantissa (fractional part) |
+
+* **Value formula:**
+	```
+	value = (-1)^sign × 1.mantissa × 2^(exponent-127)
+	```
+* **Why decimals like 55.98 aren’t exact:**
+
+	* Base 2 can’t exactly represent all base 10 fractions.
+	* 55.98 → binary fraction repeats → truncated → stored approx 55.9800033569336
+---
+
+## 3️⃣ What is **numberFraction**?
+* **Definition:** A scaling factor for fixed-point numbers.
+* **In your code:**
+	```cpp
+	const int Fixed::numberFraction = 1 << 8; // 256
+	```
+* **Purpose:**
+	```
+	stored_int = real_value * numberFraction
+	real_value = stored_int / numberFraction
+	```
+* Example:
+	```
+	55.98 * 256 ≈ 14333 (stored integer)
+	Back to real: 14333 / 256 = 55.98046875
+	```
+---
+
+## 4️⃣ Why use **1 << 8**?
+* `1 << 8` is a **binary shift**, equivalent to `2^8 = 256`.
+* **Why binary shift:**
+
+	* Efficient for hardware: shifting left by n bits = multiplying by 2^n
+	* Clear for readers: indicates “power of two scaling”
+
+* Visual:
+```
+00000001 << 1 → 00000010 = 2
+00000001 << 8 → 00000001 00000000 = 256
+```
+---
+
+## 5️⃣ What are **operators** and why define them in C++?
+
+* Operators like `=`, `+`, `<<` normally work on built-in types.
+* **Operator overloading** allows your class to behave like built-ins.
+* Example in your code:
+```cpp
+Fixed& Fixed::operator=(const Fixed& other) {
+		fixedNumber = other.fixedNumber;
+		return *this;
+}
+```
+* **Why this definition:**
+
+	* Returns `Fixed&` → allows chaining: `a = b = c`
+	* `const Fixed& other` → safe, read-only reference to right-hand side
+---
+
+## 6️⃣ What does **const after parentheses** mean?
+
+* Example:
+```cpp
+int Fixed::getRawBits(void) const;
+```
+* **Meaning:**
+
+	> This function promises **not to modify the object’s data members**.
+
+* **Why useful:**
+
+	* Allows calling the method on `const` objects
+	* Prevents accidental modification of the object
+
+* Example:
+```cpp
+void printValue(const Fixed& f) {
+		std::cout << f.getRawBits(); // OK
+		// f.setRawBits(5); // ERROR, can't call non-const
+}
+```
+---
+
+## 7️⃣ Step-by-step example with 55.98 in **your fixed-point system**
+
+1. Scaling factor = `1 << 8 = 256`
+2. Convert to fixed-point integer:
+```
+fixedNumber = (int)(55.98 * 256) = 14333
+```
+3. Store `14333` in memory:
+```
+Binary: 00000000 00000000 00111000 00100101
+```
+4. Convert back to real:
+```
+real_value = 14333 / 256 ≈ 55.98046875
+```
+* Tiny rounding error because fractional parts must align with 1/256 steps.
+---
+
+### ✅ Summary Table
+
+| Concept        | Meaning                                    | Example                                        |
+| -------------- | ------------------------------------------ | ---------------------------------------------- |
+| Fixed-point    | Store fractions using integers             | 55.98 → 14333 (with 8 fractional bits)         |
+| Float          | Binary scientific notation                 | 55.98 ≈ 55.98000336                            |
+| numberFraction | Scaling factor = 2^fractional_bits         | 256                                            |
+| 1 << 8         | Shift 1 left 8 bits → 2^8 = 256            | Efficient multiplication                       |
+| Operator       | Overload built-in operators for your class | `a = b` calls operator=                        |
+| const after () | Function won’t modify object               | `getRawBits() const` callable on const objects |
+----------------------------------------------------------------------------------------------------------------
+
+******************************************************* ex01: ***************************************************************************************************
+Perfect 👌 now let’s tie **all your questions** together in one full explanation of this code. I’ll go piece by piece so it’s clear and nothing gets left behind.
+---
+# 🟢 The Big Picture
+
+The `Fixed` class is implementing a **fixed-point number system** using an `int` to store both the integer and fractional part.
+
+* Inside: it stores a **scaled integer**.
+* Outside: you want it to look like a **normal decimal number**.
+* That’s why you see multiplications when constructing, and divisions when converting back.
+---
+
+# 🔹 1. Why the constructors multiply by `numberFraction`
+```cpp
+Fixed::Fixed(const int initNumber) {
+    fixedNumber = roundf(initNumber * numberFraction);
+}
+Fixed::Fixed(const float initNumber) {
+    fixedNumber = roundf(initNumber * numberFraction);
+}
+```
+👉 Reason: **we scale the number up before storing it**.
+
+* Suppose `numberFraction = 256` (1 << 8).
+* To store `42.42`:
+  [
+  fixedNumber = 42.42 \times 256 = 10860.5 \approx 10861
+  ]
+* So internally: `fixedNumber = 10861` (an integer).
+
+💡 Why? Because an `int` cannot store decimals, so we shift the decimal part into integer space.
+
+---
+
+# 🔹 2. Why `toFloat()` divides by `numberFraction`
+```cpp
+float Fixed::toFloat(void) const {
+    return ((float)fixedNumber / numberFraction);
+}
+```
+👉 Reason: **undo the scaling**.
+
+* Internally: `fixedNumber = 10861`.
+* Divide back by 256:
+  [
+  10861 / 256 = 42.98047
+  ]
+* Now you get back the real number.
+
+So the **multiplication in constructor** and the **division in return** are opposite operations that keep the illusion of decimals.
+
+---
+
+# 🔹 3. Why `roundf()` is used
+
+`roundf(x)` = round a float to the nearest integer.
+
+* Example: `42.42 * 256 = 10860.5`.
+* If you stored it directly in `int`, it would just **truncate** → `10860`.
+* With `roundf()`, it becomes **10861**, which is a better approximation of the original number.
+
+✅ Prevents losing accuracy when storing floats.
+
+---
+
+# 🔹 4. Why the casts look different (`(float)` vs `(int)(...)`)
+```cpp
+float Fixed::toFloat(void) const {
+    return ((float)fixedNumber / numberFraction);
+}
+
+int Fixed::toInt(void) const {
+    return (int)(fixedNumber / numberFraction);
+}
+```
+* In `toFloat`, only `fixedNumber` is cast → ensures **floating-point division** happens.
+  Otherwise, int division would cut off the decimals.
+
+* In `toInt`, the whole result is cast to `int` → ensures you get **only the integer part**.
+
+📌 Syntax difference (`(float)x` vs `(int)(expr)`) is just style; both are **C-style casts**.
+
+---
+
+# 🔹 5. Why operator `<<` prints a float, not an int
+```cpp
+std::ostream &operator<<(std::ostream& os, const Fixed& other) {
+    os << other.toFloat();
+    return os;
+}
+```
+👉 Because the purpose of this class is to behave like a **real number with decimals**.
+
+* If you used `toInt()`, decimals would be lost: `42.98` → `42`.
+* If you printed `fixedNumber` directly, you’d see a scaled value like `10861`, which is meaningless to the user.
+
+✅ Printing `toFloat()` shows the **true decimal value** the user expects.
+---
+
+# 🔹 6. Why store values with multiplication in the first place?
+
+Because integers alone cannot store decimals.
+
+* If you want to keep `42.42` inside an `int`, you must scale it.
+* Multiplying by `256` shifts the decimal part into integer space.
+* Then you can store both integer and fractional part using only an `int`.
+
+---
+
+# ✅ Summary Answer to All Your Questions
+
+1. **Why int and float constructors?**
+   To support both kinds of input. Both multiply by `numberFraction` to scale the number before storing.
+
+2. **Why multiply in constructor and divide in return?**
+   Multiply = scale up to store decimals in an int.
+   Divide = scale back down to recover the original number.
+
+3. **What’s `roundf()`?**
+   Rounds a float to the nearest integer → prevents precision loss when storing.
+
+4. **Why different casts?**
+   `(float)` ensures float division. `(int)(...)` ensures integer result. Just different placement, same idea.
+
+5. **Why operator `<<` uses `toFloat()`?**
+   Because we want to print the *real decimal value*, not the truncated int or the raw scaled storage.
+
+6. **Why multiplication at all?**
+   Because ints cannot hold decimals → multiplying shifts the decimal into integer space (fixed-point representation).
+----------------------------------------------------------------------------------------------------------------------
+
+******************************************************* ex02: ***************************************************************************************************
+- Prefix has no parameter.
+- Postfix has a dummy int parameter (always unused) just so the compiler can tell them apart.
+Alright 👍 let’s go one by one, clearly explaining the logic behind **increment/decrement** and **arithmetic operators** in your `Fixed` class.
+
+---
+
+# 🔹 1. Increment and Decrement (`++` and `--`)
+
+### Prefix (`++x`, `--x`)
+
+* **Form:** `Fixed& operator++();`
+* **Logic:** Directly increment `fixedNumber` by 1 (which means +1/256 in Q8, or +1/65536 in Q16.16).
+* **Return:** Return a reference to the modified object.
+
+```cpp
+Fixed& Fixed::operator++() {
+    this->fixedNumber++;
+    return *this;
+}
+```
+
+---
+
+### Postfix (`x++`, `x--`)
+
+* **Form:** `Fixed operator++(int);`
+  (the `int` is just a dummy to distinguish postfix from prefix).
+* **Logic:**
+
+  1. Make a copy of the current object.
+  2. Increment `fixedNumber`.
+  3. Return the **old copy**.
+
+```cpp
+Fixed Fixed::operator++(int) {
+    Fixed temp(*this);
+    this->fixedNumber++;
+    return temp;
+}
+```
+
+✅ Same logic for `--`.
+
+---
+
+# 🔹 2. Addition and Subtraction (`+`, `-`)
+
+No scaling correction needed.
+
+* Stored numbers are already in the same scale (e.g., both multiplied by 256).
+* Adding or subtracting them keeps the scale valid.
+
+[
+(a \times scale) \pm (b \times scale) = (a \pm b) \times scale
+]
+
+```cpp
+Fixed Fixed::operator+(const Fixed& other) {
+    Fixed tmp;
+    tmp.fixedNumber = this->fixedNumber + other.fixedNumber;
+    return tmp;
+}
+
+Fixed Fixed::operator-(const Fixed& other) {
+    Fixed tmp;
+    tmp.fixedNumber = this->fixedNumber - other.fixedNumber;
+    return tmp;
+}
+```
+
+---
+
+# 🔹 3. Multiplication (`*`)
+
+Needs correction.
+
+* If both operands are scaled (×scale):
+  [
+  (a \times scale) \times (b \times scale) = (a \times b) \times scale^2
+  ]
+* We want only **one scale**, so divide once by `scale`.
+
+```cpp
+Fixed Fixed::operator*(const Fixed& other) {
+    Fixed tmp;
+    tmp.fixedNumber = (this->fixedNumber * other.fixedNumber) / numberFraction;
+    return tmp;
+}
+```
+
+---
+
+# 🔹 4. Division (`/`)
+
+Also needs correction.
+
+* If both operands are scaled (×scale):
+  [
+  \frac{a \times scale}{b \times scale} = \frac{a}{b}
+  ]
+* The scale cancels out completely → so we need to **restore it** by multiplying numerator by `scale`.
+
+```cpp
+Fixed Fixed::operator/(const Fixed& other) {
+    Fixed tmp;
+    tmp.fixedNumber = (this->fixedNumber * numberFraction) / other.fixedNumber;
+    return tmp;
+}
+```
+
+---
+
+# ✅ Final Summary
+
+| Operator  | Formula (with scaling)                 | Correction in code            |
+| --------- | -------------------------------------- | ----------------------------- |
+| `++`/`--` | Just `fixedNumber++` / `fixedNumber--` | No scaling issues             |
+| `+` / `-` | `(a×scale) ± (b×scale) = (a±b)×scale`  | No correction                 |
+| `*`       | `(a×scale)(b×scale) = (a×b)×scale²`    | Divide by `scale`             |
+| `/`       | `(a×scale)/(b×scale) = (a/b)`          | Multiply numerator by `scale` |
+
+---
+
+Do you want me to also **trace one complete example** like:
+
+```cpp
+Fixed a(2.5), b(3.0);
+Fixed c = a * b;  // show all steps in memory
+```
+
+so you can see exactly how `fixedNumber` changes at each stage?
