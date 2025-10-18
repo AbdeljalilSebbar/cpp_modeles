@@ -1,29 +1,50 @@
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap( void ) {}
+DiamondTrap::DiamondTrap( void ): ClapTrap("DefaultDT_clap_name") {
+	this->name = "DefaultDT";
+	this->hit_Points = FragTrap::hit_Points;
+	this->energy_Points = ScavTrap::getOreEnergy();
+	this->attack_Damage = FragTrap::attack_Damage;
+	std::cout << "DiamonedTrap Default Has Been Created!!" << std::endl;
+}
 
 DiamondTrap::DiamondTrap( std::string initName ):
+	ClapTrap(initName + "_clap_name"),
+	ScavTrap(initName),
 	FragTrap(initName),
-	ScavTrap(initName)
+	name(initName)
 {
-	this->name = initName;
-	ClapTrap::setName(initName + "_clap_name");
-	ClapTrap::setHitPoints(FragTrap::getHitPoints());
-	ClapTrap::setEnergyPoints(ScavTrap::getEnergyPoints());
-	ClapTrap::setAttackPoints(FragTrap::getAttackPoints());
+	this->hit_Points = FragTrap::hit_Points;
+	this->energy_Points = ScavTrap::getOreEnergy();
+	this->attack_Damage = FragTrap::attack_Damage;
 
-	std::cout << "Constructor: DiamondTrap " << this->name << " Created!" << std::endl;
+	std::cout << GREEN << "DiamondTrap " << this->name << " has Been Init His Members:" << RESET << std::endl;	
+	std::cout << "For The Name: " << this->name << std::endl;
+	std::cout << "For The Name In ClapTrap: " << ClapTrap::name << std::endl;
+	std::cout << "For The Hit_Points: " << this->hit_Points << std::endl;
+	std::cout << "For The Energy_Points: " << this->energy_Points << std::endl;
+	std::cout << "For The Attack_Damage: " << this->attack_Damage << std::endl;
+	std::cout << std::endl;
 }
 
-DiamondTrap::DiamondTrap( const DiamondTrap& other ): ClapTrap(other), FragTrap(other), ScavTrap(other) {
+DiamondTrap::DiamondTrap( const DiamondTrap& other ): ClapTrap(other), ScavTrap(other), FragTrap(other) {
 	*this = other;
+	std::cout << "DiamondTrap Copy Assignment Constructor Called!" << std::endl;
 }
 
-void DiamondTrap::whoAmI( void ) {
-	std::cout << "DiamondTrap My Name is: " << this->name << " My ClapTrap Name Is: " << ClapTrap::getName() << std::endl;
+void	DiamondTrap::whoAmI( void ) {
+	std::cout << "I am " << this->name << " Diamond But My Name In ClapTrap Is " << ClapTrap::name << std::endl;
 }
 
-DiamondTrap::~DiamondTrap()
-{
-	std::cout << "Destructor Called " << "DiamondTrap " << this->name << " Deleted!" << std::endl;
+DiamondTrap& DiamondTrap::operator=( const DiamondTrap& other ) {
+	if (this != &other) {
+		ClapTrap::operator=(other);
+		this->name = other.name;
+		std::cout << "DiamondTrap Copy Assignment Operator Called!" << std::endl;
+	}
+	return *this;
+}
+
+DiamondTrap::~DiamondTrap() {
+	std::cout << RED << "DiamondTrap " << this->name << " Destructor Called!!!" << RESET << std::endl;
 }

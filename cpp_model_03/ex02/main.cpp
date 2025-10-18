@@ -1,13 +1,17 @@
 #include "FragTrap.hpp"
 
-int main( void ) {
-	FragTrap frag("Bobby");
+int main() {
+	FragTrap Steven("Steven");
+	FragTrap Max(Steven);
+	FragTrap Half;
+	std::cout << std::endl;
+	std::cout << "Testing Copy Assignment Operator:" << std::endl;
+	Half = Max;
+	std::cout << std::endl;
 
-	frag.attack("enemy");
-	frag.takeDamage(20);
-	frag.beRepaired(15);
-
-	frag.highFivesGuys();
+	Steven.attack("BLAH");
+	Steven.highFivesGuys();
+	Half.highFivesGuys();
 
 	return 0;
 }

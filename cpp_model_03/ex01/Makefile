@@ -1,10 +1,10 @@
-SRC= ClapTrap.cpp main.cpp ScavTrap.cpp
-OBJ= $(SRC:.cpp=.o)
-CPP= c++
-CPPFLAGS= -Wall -Wextra -Werror -std=c++98
-NAME= ScavTrap
+SRC=ClapTrap.cpp main.cpp ScavTrap.cpp
+OBJ=$(SRC:.cpp=.o)
+CPP=c++
+CPPFLAGS=-Wall -Wextra -Werror -std=c++98
+NAME=ScavTrap
 
-all: $(NAME)
+all:$(NAME)
 
 $(NAME): $(OBJ)
 	$(CPP) $(CPPFLAGS) $(OBJ) -o $@
@@ -18,6 +18,6 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 
-re: fclean all
+re:fclean all
 
 .PHONY:clean

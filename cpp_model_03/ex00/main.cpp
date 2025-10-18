@@ -1,15 +1,21 @@
 #include "ClapTrap.hpp"
 
-int main(void) {
-	ClapTrap clap("Truvor");
-	ClapTrap clapT("Gero");
+int main() {
+	ClapTrap Travor("Travor");
+	ClapTrap Pop("Pop");
+	ClapTrap Tem("Tem");
+	Tem = Pop;
 
-	clap.attack("Gero");
-	clapT.takeDamage(8);
-	clap.beRepaired(3);
-	clapT.attack("Truvor");
-	clap.takeDamage(5);
+	Travor.attack("Pop");
+	Pop.takeDamage(5);
+	Travor.attack("Pop");
+	Pop.takeDamage(2);
+	Pop.beRepaired(100);
+	Pop.attack("Travor");
+	Travor.takeDamage(50);
+	Pop.attack("Travor");
+	Travor.attack("Pop");
+	Tem.attack("Pop");
 
-	std::cout << "“He fought not for glory, nor for victory, but against the shadows whispering in his mind.\
-When the madness finally claimed him, even the gears wept.”" << std::endl;
+	return 0;
 }

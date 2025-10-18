@@ -1,20 +1,10 @@
 #include "ScavTrap.hpp"
 
-int main(void) {
-    ScavTrap scav("IronGuard");
-    ScavTrap enemy("MadBot");
+int main() {
+	ScavTrap Steven("Steven");
+	ScavTrap Alix(Steven);
 
-    scav.attack("MadBot");
-    enemy.takeDamage(20);
-
-    enemy.attack("IronGuard");
-    scav.takeDamage(15);
-
-    scav.beRepaired(10);
-
-    scav.guardGate();
-
-    std::cout << "The battle is over... but the gates remain guarded." << std::endl;
-
-    return 0;
+	Steven.attack("BLAH");
+	Steven.guardGate();
+	return 0;
 }

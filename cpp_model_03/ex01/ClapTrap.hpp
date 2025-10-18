@@ -4,36 +4,30 @@
 #include <iostream>
 #include <string>
 
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+#define RED "\033[31m"
 
-class ClapTrap{
-private:
-	std::string		name;
-	unsigned int 	hitPoints;
-	unsigned int 	energyPoints;
-	unsigned int 	attackPoints;
+class ClapTrap
+{
+protected:
+	std::string name;
+	unsigned int hit_Points;
+	unsigned int energy_Points;
+	unsigned int attack_Damage;
+
 public:
-	ClapTrap( void );
-	ClapTrap( std::string initName );
-	ClapTrap( const ClapTrap& other );
+	ClapTrap(void);
+	ClapTrap(const ClapTrap &other);
+	ClapTrap(std::string initName);
 
-	//getters:
-	std::string	getName( void )const;
-	unsigned int getHitPoints( void )const;
-	unsigned int getEnergyPoints( void )const;
-	unsigned int getAttackPoints( void )const;
+	virtual void attack(const std::string &target); // for polymorphisem
+	void takeDamage(unsigned int amount);
+	void beRepaired(unsigned int amount);
 
-	//setters:
-	void	setName( std::string setName );
-	void	setHitPoints( unsigned int setHP );
-	void	setEnergyPoints( unsigned int EP );
-	void	setAttackPoints( unsigned int AP );
+	ClapTrap &operator=(const ClapTrap &other);
 
-	void	attack(const std::string& target);
-	void	takeDamage(unsigned int amount);
-	void	beRepaired(unsigned int amount);
-
-	~ClapTrap( void );
+	~ClapTrap(void);
 };
-
 
 #endif
