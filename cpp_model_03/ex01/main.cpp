@@ -6,5 +6,6 @@ int main() {
 
 	Steven.attack("BLAH");
 	Steven.guardGate();
+	std::cout << std::endl;
 	return 0;
 }

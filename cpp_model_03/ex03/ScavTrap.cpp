@@ -4,7 +4,6 @@ ScavTrap::ScavTrap( void ): ClapTrap() {
 	this->hit_Points = 100;
 	this->energy_Points = 50;
 	this->attack_Damage = 20;
-	this->oreEnergy = 50;
 
 	std::cout << "ScavTrap Default has been created!" << std::endl;
 }
@@ -13,7 +12,6 @@ ScavTrap::ScavTrap( std::string initName ) : ClapTrap(initName) {
 	this->hit_Points = 100;
 	this->energy_Points = 50;
 	this->attack_Damage = 20;
-	this->oreEnergy = 50;
 
 	std::cout << GREEN << "ScavTrap " << this->name << " has Been Init His Members:" << RESET << std::endl;	
 	std::cout << "For The Name: " << this->name << std::endl;
@@ -26,10 +24,6 @@ ScavTrap::ScavTrap( std::string initName ) : ClapTrap(initName) {
 ScavTrap::ScavTrap( const ScavTrap& other ): ClapTrap(other) {
 	*this = other;
 	std::cout << "ScavTrap Copy Assignment Constructor Called!" << std::endl;
-}
-
-unsigned int ScavTrap::getOreEnergy(void) const{
-	return this->oreEnergy;
 }
 
 void	ScavTrap::guardGate( void ) {

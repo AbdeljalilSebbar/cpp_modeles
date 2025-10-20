@@ -3,7 +3,7 @@
 DiamondTrap::DiamondTrap( void ): ClapTrap("DefaultDT_clap_name") {
 	this->name = "DefaultDT";
 	this->hit_Points = FragTrap::hit_Points;
-	this->energy_Points = ScavTrap::getOreEnergy();
+	this->energy_Points = ScavTrap::energy_Points;
 	this->attack_Damage = FragTrap::attack_Damage;
 	std::cout << "DiamonedTrap Default Has Been Created!!" << std::endl;
 }
@@ -15,7 +15,7 @@ DiamondTrap::DiamondTrap( std::string initName ):
 	name(initName)
 {
 	this->hit_Points = FragTrap::hit_Points;
-	this->energy_Points = ScavTrap::getOreEnergy();
+	this->energy_Points = ScavTrap::energy_Points;
 	this->attack_Damage = FragTrap::attack_Damage;
 
 	std::cout << GREEN << "DiamondTrap " << this->name << " has Been Init His Members:" << RESET << std::endl;	

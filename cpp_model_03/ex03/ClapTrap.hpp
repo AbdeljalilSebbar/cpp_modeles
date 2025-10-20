@@ -27,7 +27,7 @@ public:
 
 	ClapTrap &operator=(const ClapTrap &other);
 
-	~ClapTrap(void);
+	virtual ~ClapTrap(void);
 };
 
 #endif
