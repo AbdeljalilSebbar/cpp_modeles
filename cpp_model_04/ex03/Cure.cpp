@@ -1,0 +1,35 @@
+#include "Cure.hpp"
+
+Cure::Cure( void ): AMateria(){
+	std::cout << "Cure Default Constructor Called!!" << std::endl;
+}
+
+Cure::Cure( const Cure& other ): AMateria(other){
+	*this = other;
+	std::cout << "Copy Assignment Constructor Cure Called!" << std::endl;
+}
+
+Cure::Cure( std::string type ): AMateria(type){
+	std::cout << "Cure Constructor Called!!" << std::endl;
+}
+
+Cure& Cure::operator=( const Cure& other ) {
+	if (this != &other) {
+		AMateria::operator=(other);
+		std::cout << "Cure type:`" << this->type << "` Copy assignment Operator called!" << std::endl;
+	}
+	return *this;
+}
+
+std::string	Cure::getType( void ) const{
+	return this->type;
+}
+
+AMateria* Cure::clone( void ) const{
+	std::cout << "Clone of Cure Called!" << std::endl;
+	return new Cure(*this);
+}
+
+void	Cure::use( ICharacter &target ) {
+	std::string 
+}
