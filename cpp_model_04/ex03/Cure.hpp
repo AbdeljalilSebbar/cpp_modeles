@@ -15,7 +15,7 @@ public:
 	void	use( ICharacter &target );
 
 	Cure& operator=( const Cure& other );
-	~Cure();
+	~Cure( void );
 };
 
 #endif

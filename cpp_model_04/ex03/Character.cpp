@@ -46,22 +46,30 @@ void	Character::equip( AMateria *m ) {
 	{
 		if (this->Inventory[i] == NULL) {
 			this->Inventory[i] = m;
-			std::cout << "Character " << this->name << " Add the AMateria " << m.getType() << " At Index: " << i << std::endl;
+			std::cout << "Character " << this->name << " Add the AMateria " << m->getType() << " At Index: " << i << std::endl;
 			return ;
 		}
 	}
-	std::cout << "Can't Add AMateria " << m.getType() << " Because Character " << this->name << " Is Full!" << std::endl;
+	std::cout << "Can't Add AMateria " << m->getType() << " Because Character " << this->name << " Is Full!" << std::endl;
 }
 
 void Character::unequip( int idx ) {
 	if (idx < 0 || idx > 4) {
-		std::cout << "Index Not Found In AMateria Character!" << std::endl;
+		std::cout << "Index Not Found In Character AMateria!" << std::endl;
 		return ;
 	}
-	this->I
-	
+	std::cout << "Character unequip " << this->Inventory[idx]->getType() << " At Index : " << idx << std::endl;
+	this->Inventory[idx] = NULL;
+}
+
+void	Character::use( int idx, ICharacter &target ) {
+	if (idx < 0 || idx > 4) {
+		std::cout << "Can't Use OutIndex!!" << std::endl;
+		return ;
+	}
+	this->Inventory[idx]->use(target);
 }
 
 Character::~Character( void ) {
-
+	std::cout << "DESTRUCTOR CHARACTER CALLED!" << std::endl;
 }

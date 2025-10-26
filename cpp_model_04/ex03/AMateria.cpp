@@ -1,28 +1,34 @@
 #include "AMateria.hpp"
 
-AMateria::AMateria( void ): type("Default") {
-	std::cout << "Default constructor called in AMateria!" << std::endl;
+AMateria::AMateria( void ) : type("Default") {
+	std::cout << "AMateria Default Constructor called!" << std::endl;
 }
 
-AMateria::AMateria( std::string const &type ) {
-	this->type = type;
+AMateria::AMateria( std::string const &initType ) : type(initType) {
 	std::cout << "AMateria type:`" << type << "` Constructor called!" << std::endl;
 }
 
-AMateria::AMateria( AMateria const &other ) {
-	*this = other;
-	std::cout << "AMateria type:`" << type << "` Copy assignment Constructor called!" << std::endl;
+AMateria::AMateria( AMateria const &other ) : type(other.type) {
+	std::cout << "AMateria type:`" << type << "` Copy Constructor called!" << std::endl;
 }
 
-AMateria& AMateria::operator=( const AMateria& other ) {
+AMateria &AMateria::operator=(AMateria const &other) {
 	if (this != &other) {
-		this->type = other.type;
-		std::cout << "AMateria type:`" << this->type << "` Copy assignment Operator called!" << std::endl;
+		type = other.type;
+		std::cout << "AMateria type:`" << this->type 
+				  << "` Copy Assignment Operator called!" << std::endl;
 	}
-	return *this;
+	return (*this);
 }
 
-std::string const& AMateria::getType( void ) const{
+std::string const &AMateria::getType() const {
 	return this->type;
 }
 
+void	AMateria::use( ICharacter &target ) {
+	std::cout << "* uses materia on " << target.getName() << " *" << std::endl;
+}
+
+AMateria::~AMateria() {
+	std::cout << "AMateria Destructor called!" << std::endl;
+}
