@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:27:48 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:27:49 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DOG_HPP
 #define DOG_HPP
 
@@ -19,7 +31,7 @@ public:
 	void	makeSound( void ) const;
 
 	void	callBrain( int index, std::string initBrain );
-	void	getIdeasBrain( void );
+	void	getIdeasBrain( int index );
 
 	~Dog( void );
 };

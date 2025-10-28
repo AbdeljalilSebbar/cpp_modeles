@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Dog.cpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:27:43 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:30:42 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Dog.hpp"
 
 Dog::Dog( void ): Animal("Dog") {
@@ -10,7 +22,7 @@ Dog::Dog( std::string initType): Animal(initType){
 	std::cout << "Constructor Dog of Type " << this->type << " Called!" << std::endl;
 }
 
-Dog::Dog( const Dog& other ): Animal(other) {
+Dog::Dog( const Dog& other ): Animal(other), dogBrain(new Brain(*other.dogBrain)) {
 	*this = other;
 	std::cout << "Copy Assignment Constructor of Dog Called!" << std::endl;
 }
@@ -18,7 +30,8 @@ Dog::Dog( const Dog& other ): Animal(other) {
 Dog& Dog::operator=( const Dog& other ) {
 	if (this != &other) {
 		Animal::operator=(other);
-		this->dogBrain->operator=(*other.dogBrain);
+		delete dogBrain;
+		this->dogBrain = new Brain(*other.dogBrain);
 		std::cout << "Copy Assignment Operator= of Dog Called!" << std::endl;
 	}
 	return *this;
@@ -36,8 +49,8 @@ void	Dog::callBrain( int index, std::string initBrain ) {
 	this->dogBrain->setIdeas(index, initBrain);
 }
 
-void	Dog::getIdeasBrain( void ) {
-	this->dogBrain->getIdea();
+void	Dog::getIdeasBrain( int index ) {
+	this->dogBrain->getIdea(index);
 }
 
 Dog::~Dog( void ) {

@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Brain.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:27:08 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:27:09 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Brain.hpp"
 
 Brain::Brain( void )
 {
+	for (int i = 0; i < 100; i++)
+		this->ideas[i] = "ideas";
 	std::cout << "Default Brain Constructor Called!" << std::endl;
 }
 
@@ -28,16 +42,21 @@ Brain& Brain::operator=( const Brain& other ) {
 	return *this;
 }
 
-void	Brain::getIdea( void ) const{
-	for (int i = 0; i < 100; i++)
-		std::cout << ideas[i] << std::endl;
+void	Brain::getIdea( int index ) const{
+	if (index < 0 || index > 100)
+	{
+		return ;
+	}
+	std::cout << this->ideas[index] << std::endl;
 }
 
 void	Brain::setIdeas( int index, std::string setIdea ) {
-	for (int i = index; i < 100; i++)
+	if (index < 0 || index > 100)
 	{
-		ideas[i] = setIdea;
+		std::cout << "Index Incorrecte!" << std::endl;
+		return ;
 	}
+	this->ideas[index] = setIdea;
 }
 
 Brain::~Brain( void )

@@ -1,0 +1,521 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPP Module 04 - Ex03 Explained</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2E7D32;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        .note {
+            background-color: #fffae6;
+            border-left: 5px solid #ffeb3b;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 style="color: ivory;">CPP Module 04 - ex03: Materia, Character, and MateriaSource Explained</h1>
+    </header>
+    <main>
+        <section>
+            <h2>1. Overview</h2>
+            <p>
+                This exercise implements a simple magic system similar to RPG games.
+                We work with <strong>AMateria</strong> (abstract magical abilities),
+                <strong>Character</strong> (can equip and use Materias), and
+                <strong>MateriaSource</strong> (learns and creates Materias).
+                Key concepts: <strong>polymorphism</strong>, <strong>deep copy</strong>,
+                <strong>dynamic memory</strong>.
+            </p>
+        </section>
+
+        <section>
+            <h2>2. AMateria Class</h2>
+            <p>
+                <strong>AMateria</strong> is an abstract base class with:
+            </p>
+            <ul>
+                <li>A <code>type</code> string.</li>
+                <li>Pure virtual <code>clone()</code> method for creating new Materias.</li>
+                <li>Virtual <code>use(ICharacter &)</code> method.</li>
+            </ul>
+            <p>
+                <code>Ice</code> and <code>Cure</code> inherit from AMateria and implement <code>clone()</code> and
+                <code>use()</code>.
+            </p>
+            <pre><code>AMateria* tmp = new Ice(); // constructor of Ice called</code></pre>
+            <div class="note">
+                <strong>Note:</strong> Declaring a pointer like <code>AMateria* tmp;</code> does NOT call the
+                constructor. Only creating an object does.
+            </div>
+        </section>
+
+        <section>
+            <h2>3. ICharacter Interface</h2>
+            <p>
+                <strong>ICharacter</strong> is an abstract interface:
+            </p>
+            <ul>
+                <li>Virtual destructor</li>
+                <li><code>getName()</code></li>
+                <li><code>equip(AMateria*)</code>, <code>unequip(int)</code>, <code>use(int, ICharacter&)</code></li>
+            </ul>
+            <div class="note">
+                <strong>Forward declaration:</strong> In the interface, we use <code>class AMateria;</code> to avoid
+                cyclic includes.
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Character Class</h2>
+            <p>
+                <strong>Character</strong> implements ICharacter:
+            </p>
+            <ul>
+                <li>Has a name and <code>Inventory[4]</code> storing pointers to Materias.</li>
+                <li>Deep copy in copy constructor and assignment operator using <code>clone()</code>.</li>
+                <li>Destructor deletes all owned Materias.</li>
+                <li><code>equip()</code> adds a Materia to first free slot.</li>
+                <li><code>unequip()</code> removes it without deleting (ownership transferred).</li>
+                <li><code>use()</code> calls <code>AMateria::use()</code> if slot exists and not null.</li>
+            </ul>
+            <pre><code>
+void Character::use(int idx, ICharacter &target) {
+    if (idx &lt; 0 || idx &gt;= 4 || !Inventory[idx]) return;
+    Inventory[idx]->use(target);
+}
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>5. MateriaSource Class</h2>
+            <p>
+                <strong>MateriaSource</strong> implements IMateriaSource:
+            </p>
+            <ul>
+                <li>Stores up to 4 learned Materias (<code>sourceMate[4]</code>).</li>
+                <li>Deep copy in assignment and copy constructor.</li>
+                <li>Destructor deletes stored Materias.</li>
+                <li><code>learnMateria(AMateria*)</code> stores new Materia if there is space.</li>
+                <li><code>createMateria(type)</code> clones a stored Materia matching the type.</li>
+            </ul>
+            <pre><code>
+AMateria* MateriaSource::createMateria(const std::string &type) {
+    for (int i = 0; i &lt; 4; i++)
+        if (sourceMate[i] &amp;&amp; sourceMate[i]->getType() == type)
+            return sourceMate[i]->clone();
+    return nullptr;
+}
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>6. Memory Management</h2>
+            <p>
+                Memory rules to avoid leaks and crashes:
+            </p>
+            <ul>
+                <li>Character deletes Materias still in inventory in destructor.</li>
+                <li>MateriaSource deletes learned Materias in destructor.</li>
+                <li>Unequip does not delete; user can reassign or transfer ownership.</li>
+                <li>Always use <code>clone()</code> for deep copies to avoid shared pointers.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>7. Example Usage</h2>
+            <pre><code>
+MateriaSource* src = new MateriaSource();
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+
+Character* me = new Character("Hero");
+me->equip(src->createMateria("ice"));
+me->equip(src->createMateria("cure"));
+
+Character* bob = new Character("Bob");
+me->use(0, *bob); // shoots ice
+me->use(1, *bob); // heals
+
+delete bob;
+delete me;
+delete src;
+            </code></pre>
+            <p>All dynamic memory is properly deleted — Valgrind clean ✅</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>CPP Module 04 - ex03 Article | Written by Abde ljalil Sebbar</p>
+    </footer>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CPP04 EX03 – Materia System Full Explanation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #eee;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #70d6ff;
+        }
+
+        .box {
+            background: #2b2b2b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .code {
+            background: #000;
+            padding: 10px;
+            border-radius: 6px;
+            color: #0f0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td,
+        th {
+            border: 1px solid #444;
+            padding: 8px;
+        }
+
+        th {
+            background: #333;
+        }
+
+        strong {
+            color: #ffea00;
+        }
+
+        .note {
+            color: #ff7272;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>CPP04 – Exercise 03: Materia System Documentation</h1>
+        <p>
+            This project teaches <strong>Polymorphism</strong>, <strong>Abstract Classes</strong>,
+            <strong>Interfaces</strong>,
+            <strong>Dynamic Memory</strong>, and <strong>Deep Copying</strong> through a magical Materia system like
+            Final Fantasy.
+        </p>
+
+        <hr>
+
+        <h2>🧩 Class Structure Overview</h2>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Role</th>
+            </tr>
+            <tr>
+                <td><strong>AMateria</strong></td>
+                <td>Abstract base class for all Materias</td>
+            </tr>
+            <tr>
+                <td><strong>Ice, Cure</strong></td>
+                <td>Concrete Materias that implement clone() and use()</td>
+            </tr>
+            <tr>
+                <td><strong>ICharacter</strong></td>
+                <td>Interface that defines character actions</td>
+            </tr>
+            <tr>
+                <td><strong>Character</strong></td>
+                <td>Holds up to 4 Materias and uses them</td>
+            </tr>
+            <tr>
+                <td><strong>IMateriaSource</strong></td>
+                <td>Interface to learn and create Materias</td>
+            </tr>
+            <tr>
+                <td><strong>MateriaSource</strong></td>
+                <td>Stores Materia “templates” and produces new ones</td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <h2>1️⃣ AMateria (Abstract Class)</h2>
+        <div class="box">
+            <ul>
+                <li>Member: <strong>type</strong> → std::string ("ice", "cure")</li>
+                <li>Function: <strong>getType()</strong> → returns the type</li>
+                <li>Function: <strong>clone()</strong> → pure virtual (must be implemented in derived classes)</li>
+                <li>Function: <strong>use(ICharacter&)</strong> → polymorphic behavior when used</li>
+            </ul>
+            <p><strong>Purpose:</strong> Gives a common interface for every materia type.</p>
+        </div>
+
+        <hr>
+
+        <h2>2️⃣ Ice & Cure (Derived from AMateria)</h2>
+        <div class="box">
+            <ul>
+                <li>Constructor sets materia type ("ice" / "cure")</li>
+                <li><strong>clone()</strong> returns <span class="code">new Ice(*this)</span></li>
+                <li><strong>use()</strong> prints an action like freezing or healing</li>
+            </ul>
+            <p><strong>Polymorphism in action:</strong> AMateria* can point to both Ice and Cure</p>
+        </div>
+
+        <hr>
+
+        <h2>3️⃣ ICharacter (Interface)</h2>
+        <div class="box">
+            <p>Defines actions all characters must support:</p>
+            <ul>
+                <li><strong>getName()</strong></li>
+                <li><strong>equip(AMateria*)</strong></li>
+                <li><strong>unequip(int)</strong></li>
+                <li><strong>use(int, ICharacter&)</strong></li>
+            </ul>
+            <p><strong>No logic here, only rules.</strong></p>
+        </div>
+
+        <hr>
+
+        <h2>4️⃣ Character (Implements ICharacter)</h2>
+        <div class="box">
+
+            <h3>📌 Member Variables</h3>
+            <ul>
+                <li><strong>name</strong> → character name</li>
+                <li><strong>Inventory[4]</strong> → pointers to AMateria</li>
+            </ul>
+
+            <h3>✅ equip(AMateria* m)</h3>
+            <ul>
+                <li>Put materia in the first empty slot</li>
+                <li>If full → ignore (do NOT delete)</li>
+            </ul>
+
+            <h3>✅ unequip(int idx)</h3>
+            <ul>
+                <li>Set slot to <strong>nullptr</strong></li>
+                <li><strong>Do NOT delete</strong> the materia</li>
+                <li>Because maybe it’s dropped to be picked later (game logic)</li>
+            </ul>
+            <p class="note">Ownership remains! If lost pointer → memory leak risk</p>
+
+            <h3>✅ use(int idx, ICharacter& target)</h3>
+            <ul>
+                <li>If slot not empty → call <strong>Inventory[idx]->use(target)</strong></li>
+            </ul>
+
+            <h3>✅ Copy Constructor & Operator= (Deep Copy)</h3>
+            <pre class="code">
+// Good:
+this->Inventory[i] = other.Inventory[i]->clone();
+
+// Avoid:
+this->Inventory[i] = other.Inventory[i]; // SHALLOW COPY ❌
+</pre>
+
+            <h3>✅ Destructor</h3>
+            <ul>
+                <li>Delete all materias the Character still owns</li>
+                <li>Inventory pointers become invalid after delete</li>
+            </ul>
+
+        </div>
+
+        <hr>
+
+        <h2>5️⃣ IMateriaSource</h2>
+        <div class="box">
+            Defines:
+            <ul>
+                <li><strong>learnMateria(AMateria*)</strong></li>
+                <li><strong>createMateria(type)</strong></li>
+            </ul>
+            <p>Interface only → logic in MateriaSource</p>
+        </div>
+
+        <hr>
+
+        <h2>6️⃣ MateriaSource (Implements IMateriaSource)</h2>
+        <div class="box">
+
+            <h3>📌 Member Variables</h3>
+            <ul>
+                <li><strong>memory[4]</strong> → learned materia templates</li>
+            </ul>
+
+            <h3>✅ learnMateria(AMateria* m)</h3>
+            <ul>
+                <li>Store materia pointer in first empty memory slot</li>
+                <li>If full → ignore (do NOT delete)</li>
+            </ul>
+
+            <h3>✅ createMateria(std::string const& type)</h3>
+            <ul>
+                <li>Search memory[]</li>
+                <li>If types matches → <strong>clone()</strong> and return new Materia</li>
+            </ul>
+
+            <h3>✅ Copy Constructor & Operator= (Deep Copy)</h3>
+            <ul>
+                <li>Clone every stored Materia</li>
+                <li>Prevent double frees</li>
+            </ul>
+
+            <h3>✅ Destructor</h3>
+            <ul>
+                <li>Delete all stored Materias</li>
+            </ul>
+
+        </div>
+
+        <hr>
+
+        <h2>🧠 MEMORY OWNERSHIP RULES</h2>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Must delete?</th>
+            </tr>
+            <tr>
+                <td>Character</td>
+                <td>Yes — Only equipped materias</td>
+            </tr>
+            <tr>
+                <td>MateriaSource</td>
+                <td>Yes — Only learned templates</td>
+            </tr>
+            <tr>
+                <td>unequip()</td>
+                <td><strong>No delete!</strong> just remove pointer</td>
+            </tr>
+            <tr>
+                <td>createMateria()</td>
+                <td>Yes — new Materia returns → caller owns it</td>
+            </tr>
+        </table>
+
+        <p class="note">No class should delete what it does not own ✅</p>
+
+        <hr>
+
+        <h2>📚 Concepts Learned</h2>
+        <ul>
+            <li><strong>Polymorphism</strong> → use() action changes based on real type</li>
+            <li><strong>Abstract classes</strong> → AMateria cannot be instantiated</li>
+            <li><strong>Virtual destructor</strong> → prevent memory leaks when deleting base pointers</li>
+            <li><strong>Deep copy</strong> → clone() ensures unique memory allocation</li>
+            <li><strong>Interfaces</strong> → Ensure every character/materia source behaves correctly</li>
+        </ul>
+
+        <hr>
+
+        <h2>✅ Final Summary</h2>
+        <p>
+            You built a complete reusable magical system using strong OOP principles.
+            Correct memory management and deep copying are the most important part.
+        </p>
+
+    </div>
+</body>
+
+</html>

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Cat.hpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:27:31 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:27:32 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CAT_HPP
 #define CAT_HPP
 
@@ -19,7 +31,7 @@ public:
 	void	makeSound( void ) const;
 
 	void	callBrain( int index, std::string initBrain );
-	void	getIdeasBrain( void );
+	void	getIdeasBrain( int index );
 
 	~Cat( void );
 };

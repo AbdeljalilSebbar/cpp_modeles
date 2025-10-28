@@ -1,6 +1,6 @@
 #include "AMateria.hpp"
 
-AMateria::AMateria( void ) : type("Default") {
+AMateria::AMateria( void ) : type("DefaultAMateria") {
 	std::cout << "AMateria Default Constructor called!" << std::endl;
 }
 
@@ -14,7 +14,7 @@ AMateria::AMateria( AMateria const &other ) : type(other.type) {
 
 AMateria &AMateria::operator=(AMateria const &other) {
 	if (this != &other) {
-		type = other.type;
+		this->type = other.type;
 		std::cout << "AMateria type:`" << this->type 
 				  << "` Copy Assignment Operator called!" << std::endl;
 	}

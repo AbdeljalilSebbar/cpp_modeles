@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/10/28 14:26:20 by abdsebba          #+#    #+#              #
+#    Updated: 2025/10/28 14:26:21 by abdsebba         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC=Animal.cpp Cat.cpp Dog.cpp main.cpp WrongAnimal.cpp WrongCat.cpp\
 	Brain.cpp 
 OBJ=$(SRC:.cpp=.o)

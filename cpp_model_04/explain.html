@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPP04 Polymorphism & Deep Copy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2e6dc9;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2e6dc9;
+            color: white;
+        }
+
+        code {
+            background: #eee;
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CPP04 — Polymorphism & Deep Copy Explained</h1>
+
+    <div class="box">
+        <h2>1️⃣ Polymorphism</h2>
+        <p>Polymorphism allows a base class pointer to call the correct function of the derived class.</p>
+        <pre><code>Animal* a = new Dog();
+a->makeSound(); // Calls Dog version
+</code></pre>
+        <p>To enable this behavior, we must use the <strong>virtual</strong> keyword in the base class.</p>
+    </div>
+
+    <div class="box">
+        <h2>2️⃣ Deep Copy vs Shallow Copy</h2>
+        <p>When a class uses dynamic memory like:</p>
+        <pre><code>class Brain {
+public:
+    std::string ideas[100];
+};
+
+class Dog : public Animal {
+private:
+    Brain* brain;
+};
+</code></pre>
+
+        <h3>Shallow Copy ❌</h3>
+        <p>Copies only the pointer → both objects share the same memory → double free issue.</p>
+
+        <h3>Deep Copy ✅</h3>
+        <p>Duplicates memory → each object has its own Brain.</p>
+
+        <table>
+            <tr>
+                <th>Shallow</th>
+                <th>Deep</th>
+            </tr>
+            <tr>
+                <td>❌ Shared memory</td>
+                <td>✅ Separate memory</td>
+            </tr>
+            <tr>
+                <td>⚠️ Double delete</td>
+                <td>✅ Safe</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="box">
+        <h2>Rule of 3 - Correct Deep Copy</h2>
+        <pre><code>Dog::Dog(const Dog& other) {
+    this->brain = new Brain(*other.brain);
+}
+
+Dog& Dog::operator=(const Dog& other) {
+    if (this != &other) {
+        delete this->brain;
+        this->brain = new Brain(*other.brain);
+    }
+    return *this;
+}
+
+Dog::~Dog() {
+    delete this->brain;
+}
+</code></pre>
+    </div>
+
+    <div class="box">
+        <h2>Testing Deep Copy</h2>
+        <pre><code>Dog basic;
+{
+    Dog tmp = basic;
+}
+// No crashes → deep copy works ✅
+</code></pre>
+    </div>
+
+    <div class="box">
+        <h2>What the Evaluator Checks ✅</h2>
+        <table>
+            <tr>
+                <th>Topic</th>
+                <th>Requirement</th>
+            </tr>
+            <tr>
+                <td>Polymorphism</td>
+                <td>Use virtual</td>
+            </tr>
+            <tr>
+                <td>Memory</td>
+                <td>Deep copy</td>
+            </tr>
+            <tr>
+                <td>Canonical form</td>
+                <td>Constructor, operator=, destructor</td>
+            </tr>
+            <tr>
+                <td>Encapsulation</td>
+                <td>No useless public variables</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Conclusion 🎯</h2>
+    <p>
+        CPP04 teaches proper polymorphism and safe memory management using deep copy.
+        Mastering this prevents crashes and improves strong OOP architecture.
+    </p>
+
+    <h2>📌 Abstract Class in C++</h2>
+    <P>
+        An abstract class is a class that cannot be instantiated.<br>
+        Its main purpose is to serve as a base class for other classes that implement specific behavior.
+    </P>
+
+    <h2>🧠 Why use abstract classes?</h2>
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/><path d="M11.293 8.707 13.586 11H9V8H7v5h6.586l-2.293 2.293 1.414 1.414L17.414 12l-4.707-4.707-1.414 1.414z"/></svg>
+        Define a common interface for derived classes<br>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/><path d="M11.293 8.707 13.586 11H9V8H7v5h6.586l-2.293 2.293 1.414 1.414L17.414 12l-4.707-4.707-1.414 1.414z"/></svg>
+        Force derived classes to implement certain behavior<br>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/><path d="M11.293 8.707 13.586 11H9V8H7v5h6.586l-2.293 2.293 1.414 1.414L17.414 12l-4.707-4.707-1.414 1.414z"/></svg>
+        Enable polymorphism<br>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/><path d="M11.293 8.707 13.586 11H9V8H7v5h6.586l-2.293 2.293 1.414 1.414L17.414 12l-4.707-4.707-1.414 1.414z"/></svg>
+        Avoid instantiating a generic “base” that doesn’t make sense by itself<br>
+    </p>
+</body>
+
+</html>

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Brain.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:27:23 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:27:24 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BRAIN_HPP
 #define BRAIN_HPP
 
@@ -15,7 +27,7 @@ public:
 
 	Brain& operator=( const Brain& other );
 
-	void	getIdea( void ) const;
+	void	getIdea( int index ) const;
 	void	setIdeas( int index, std::string setIdea );
 
 	~Brain( void );

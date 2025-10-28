@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:25:52 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:25:53 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Cat.hpp"
 
 Cat::Cat( void ): Animal("Cat") {
@@ -10,7 +22,7 @@ Cat::Cat( std::string initType): Animal(initType){
 	std::cout << "Constructor Cat of Type " << this->type << " Called!" << std::endl;
 }
 
-Cat::Cat( const Cat& other ): Animal(other) {
+Cat::Cat( const Cat& other ): Animal(other), catBrain(new Brain(*other.catBrain)) {
 	*this = other;
 	std::cout << "Copy Assignment Constructor of Cat Called!" << std::endl;
 }
@@ -18,7 +30,8 @@ Cat::Cat( const Cat& other ): Animal(other) {
 Cat& Cat::operator=( const Cat& other ) {
 	if (this != &other) {
 		Animal::operator=(other);
-		this->catBrain->operator=(*other.catBrain);
+		delete catBrain;
+		this->catBrain = new Brain(*other.catBrain);
 		std::cout << "Copy Assignment Operator of Cat Called!" << std::endl;
 	}
 	return *this;
@@ -36,8 +49,8 @@ void	Cat::callBrain( int index, std::string initBrain ) {
 	this->catBrain->setIdeas(index, initBrain);
 }
 
-void	Cat::getIdeasBrain( void ) {
-	this->catBrain->getIdea();
+void	Cat::getIdeasBrain( int index ) {
+	this->catBrain->getIdea(index);
 }
 
 Cat::~Cat( void ) {

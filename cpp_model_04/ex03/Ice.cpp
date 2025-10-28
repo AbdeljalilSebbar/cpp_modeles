@@ -1,6 +1,6 @@
 #include "Ice.hpp"
 
-Ice::Ice( void ): AMateria(){
+Ice::Ice( void ): AMateria("ice"){
 	std::cout << "Ice Default Constructor Called!!" << std::endl;
 }
 

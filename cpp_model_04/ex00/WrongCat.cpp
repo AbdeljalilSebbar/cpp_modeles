@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   WrongCat.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 14:25:17 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/10/28 14:25:18 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "WrongCat.hpp"
 
-WrongCat::WrongCat( void ): WrongAnimal("WrongAnimal"){
+WrongCat::WrongCat( void ): WrongAnimal("WrongCat"){
 	std::cout << "Default Constructor WrongCat Called!!" << std::endl;
 }
 

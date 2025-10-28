@@ -11,7 +11,7 @@ public:
 	Ice( std::string type );
 
 	std::string	getType( void ) const;
-	AMateria	*clone( void ) const = 0;
+	AMateria	*clone( void ) const;
 	void	use( ICharacter &target );
 
 	Ice& operator=( const Ice& other );
