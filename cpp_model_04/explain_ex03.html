@@ -411,7 +411,7 @@ this->Inventory[i] = other.Inventory[i]->clone();
 
 // Avoid:
 this->Inventory[i] = other.Inventory[i]; // SHALLOW COPY ❌
-</pre>
+            </pre>
 
             <h3>✅ Destructor</h3>
             <ul>
@@ -495,6 +495,95 @@ this->Inventory[i] = other.Inventory[i]; // SHALLOW COPY ❌
         </table>
 
         <p class="note">No class should delete what it does not own ✅</p>
+
+        <!-- <hr>
+
+        <h2>📚 Concepts Learned</h2>
+        <ul>
+            <li><strong>Polymorphism</strong> → use() action changes based on real type</li>
+            <li><strong>Abstract classes</strong> → AMateria cannot be instantiated</li>
+            <li><strong>Virtual destructor</strong> → prevent memory leaks when deleting base pointers</li>
+            <li><strong>Deep copy</strong> → clone() ensures unique memory allocation</li>
+            <li><strong>Interfaces</strong> → Ensure every character/materia source behaves correctly</li>
+        </ul>
+
+        <hr>
+
+        <h2>✅ Final Summary</h2>
+        <p>
+            You built a complete reusable magical system using strong OOP principles.
+            Correct memory management and deep copying are the most important part.
+        </p> -->
+        <hr>
+
+        <h2>7️⃣ 📌 The main() Function – What Happens Step by Step</h2>
+        <div class="box">
+
+            <pre class="code">
+IMateriaSource *src = new MateriaSource();
+            </pre>
+            ✅ We create a MateriaSource that will store Materia templates.
+
+            <pre class="code">
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+            </pre>
+            ✅ We dynamically create Ice & Cure and store them as templates inside src
+            ⚠️ `src` becomes the owner → it will delete them later
+
+            <pre class="code">
+ICharacter *me = new Character("me");
+            </pre>
+            ✅ A new character named "me" with empty inventory
+
+            <pre class="code">
+AMateria *tmp;
+tmp = src->createMateria("ice");
+me->equip(tmp);
+            </pre>
+            ✅ src searches for an Ice template
+            ✅ **clone()** is called → a NEW Ice is created
+            ✅ `me` equips the Ice (now `me` owns that pointer)
+
+            <pre class="code">
+tmp = src->createMateria("cure");
+me->equip(tmp);
+            </pre>
+            ✅ Same thing for Cure
+            ⚠️ Inventory now has {Ice, Cure, NULL, NULL}
+
+            <pre class="code">
+ICharacter *bob = new Character("bob");
+            </pre>
+            ✅ Another character to be used as target
+
+            <pre class="code">
+me->use(0, *bob);
+me->use(1, *bob);
+            </pre>
+            ✅ Polymorphism:
+            - slot 0 → Ice → *shoots an ice bolt at bob*
+            - slot 1 → Cure → *heals bob*
+
+            <pre class="code">
+delete bob;
+delete me;
+delete src;
+            </pre>
+
+            ✅ Destruction order:
+            <ul>
+                <li><strong>bob</strong> → inventory empty → nothing to delete</li>
+                <li><strong>me</strong> → deletes Ice & Cure it owns</li>
+                <li><strong>src</strong> → deletes learned templates</li>
+            </ul>
+
+            ✅ All allocated memory is freed ✔ No leaks ✔
+
+            <p class="note">
+                The test prints output between each step so you can track constructor & destructor calls!
+            </p>
+        </div>
 
         <hr>
 
