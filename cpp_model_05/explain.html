@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPP Module 05 - 42 School Explanation</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0f172a;
+      color: #f1f5f9;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1e293b;
+      text-align: center;
+      padding: 2rem 1rem;
+      border-bottom: 3px solid #38bdf8;
+    }
+    header h1 {
+      color: #38bdf8;
+      margin: 0;
+      font-size: 2rem;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    h2 {
+      color: #38bdf8;
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 0.5rem;
+    }
+    code, pre {
+      background-color: #0f172a;
+      color: #a5b4fc;
+      padding: 0.5rem;
+      border-radius: 8px;
+      display: block;
+      overflow-x: auto;
+    }
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CPP Module 05 - Bureaucracy & Exceptions</h1>
+    <p>Deep dive into Exceptions, Class hierarchy, and proper error handling in C++</p>
+  </header>
+
+  <section>
+    <h2>Overview</h2>
+    <p>This module focuses on understanding <strong>exceptions</strong> and applying <strong>OOP principles</strong> such as encapsulation, class design, and error control. You’ll simulate a bureaucratic system where forms must be signed and executed under strict grade conditions.</p>
+  </section>
+
+  <section>
+    <h2>Key Concepts</h2>
+    <ul>
+      <li><strong>Exceptions</strong>: Handling runtime errors using <code>try / catch / throw</code>.</li>
+      <li><strong>Custom Exception Classes</strong>: Creating user-defined exceptions inherited from <code>std::exception</code>.</li>
+      <li><strong>Nested Classes</strong>: Defining exception classes inside main classes.</li>
+      <li><strong>Const members</strong>: Declaring immutable data like a bureaucrat’s name.</li>
+      <li><strong>Encapsulation</strong>: Protecting class data and using getters for controlled access.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Exercise 00: Bureaucrat</h2>
+    <p>You create a <code>Bureaucrat</code> class with:</p>
+    <ul>
+      <li><code>const std::string name</code></li>
+      <li><code>int grade</code> (1 = highest, 150 = lowest)</li>
+    </ul>
+    <p>It throws exceptions if the grade is out of range. You must handle:</p>
+    <ul>
+      <li><code>GradeTooHighException</code></li>
+      <li><code>GradeTooLowException</code></li>
+    </ul>
+
+    <pre><code>try {
+  Bureaucrat a("Alice", 151);
+} catch (std::exception &e) {
+  std::cout << e.what() << std::endl;
+}</code></pre>
+  </section>
+
+  <section>
+    <h2>Exercise 01: Form</h2>
+    <p>Add a new class <code>Form</code> that can be signed only if the bureaucrat’s grade is high enough. It has:</p>
+    <ul>
+      <li><code>const std::string name</code></li>
+      <li><code>bool isSigned</code></li>
+      <li><code>int gradeToSign</code></li>
+      <li><code>int gradeToExecute</code></li>
+    </ul>
+
+    <p>The <code>Bureaucrat</code> can attempt to sign it using:</p>
+    <pre><code>void Bureaucrat::signForm(Form &form);</code></pre>
+
+    <p>Inside the <code>Form</code> class:</p>
+    <pre><code>void beSigned(Bureaucrat const &b);
+// Throws GradeTooLowException if b.grade is too low</code></pre>
+  </section>
+
+  <section>
+    <h2>Exercise 02: AForm (Abstract Class)</h2>
+    <p>Now you introduce inheritance and abstraction. <code>Form</code> becomes <code>AForm</code> — an abstract class with a pure virtual method:</p>
+    <pre><code>virtual void execute(Bureaucrat const &executor) const = 0;</code></pre>
+    <p>This means each specific form will define how to execute itself.</p>
+  </section>
+
+  <section>
+    <h2>Exercise 03: Specific Forms</h2>
+    <p>You implement three derived classes:</p>
+    <ul>
+      <li><strong>ShrubberyCreationForm</strong>: Creates a tree ASCII art file.</li>
+      <li><strong>RobotomyRequestForm</strong>: 50% chance of success.</li>
+      <li><strong>PresidentialPardonForm</strong>: Prints a pardon message.</li>
+    </ul>
+    <p>Each overrides <code>execute()</code> and checks if:</p>
+    <ul>
+      <li>The form is signed.</li>
+      <li>The executor has sufficient grade.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Exercise 04: Intern</h2>
+    <p>The final part adds an <strong>Intern</strong> class capable of creating any of the above forms dynamically:</p>
+    <pre><code>AForm *Intern::makeForm(std::string formName, std::string target);</code></pre>
+    <p>The intern identifies the requested form type by name and returns the correct object, or prints an error if unknown.</p>
+  </section>
+
+  <section>
+    <h2>Final Notes</h2>
+    <ul>
+      <li>Master exception safety: Always catch by reference.</li>
+      <li>Understand class hierarchies: Base class = abstract behavior, Derived class = specific action.</li>
+      <li>Respect the Orthodox Canonical Form for all classes.</li>
+    </ul>
+    <p>By the end, you’ll know how to build robust, modular, and safe C++ programs that handle complex object relations and error management.</p>
+  </section>
+</body>
+</html>

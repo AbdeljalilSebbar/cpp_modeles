@@ -35,7 +35,9 @@ void	RobotomyRequestForm::execute( Bureaucrat const & executor ) const{
 	std::cout << "* Makes some drilling noise *" << std::endl;
 
 	std::srand(std::time(NULL)); // seed once each program run
-	if (std::rand() % 2)
+	int randVal = std::rand();
+	std::cout << "RANDOME VALUE THAT HAVE BEEN USE IS:: " << randVal << std::endl;
+	if (randVal % 2)
 		std::cout << this->target << " HAS BEEN ROBOTOMIZED SUCCESSFULLY 50% OF THE TIME" << std::endl;
 	else
 		std::cout << "THE ROBOTOMY FAILED." << std::endl;

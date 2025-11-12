@@ -1,7 +1,6 @@
 #include "Bureaucrat.hpp"
 
 int main() {
-
 	try
 	{
 		Bureaucrat alice("Alice", 50);
