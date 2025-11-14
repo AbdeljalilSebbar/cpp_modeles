@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ShrubberyCreationForm.cpp                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:53:02 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:53:03 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm( void ):
@@ -39,7 +51,7 @@ void drawASCII_Trees( int height, std::ofstream& newFile ) {
     }
     
     for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < height*2; j++) {
+        for (int j = 0; j < height * 2; j++) {
             if (j == height)
             {
                 newFile << "|";

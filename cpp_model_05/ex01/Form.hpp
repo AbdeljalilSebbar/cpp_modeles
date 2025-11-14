@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Form.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:50:53 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:50:54 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FORM_HPP
 #define FORM_HPP
 
@@ -33,7 +45,6 @@ public:
 	Form& operator=( const Form& other );
 
 	void	beSigned( const Bureaucrat& m );
-
 
 	~Form( void );
 };

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:49:46 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:49:47 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat( void ):
@@ -58,7 +70,7 @@ const char* Bureaucrat::GradeTooLowException::what( void ) const throw() {
 Bureaucrat& Bureaucrat::operator=( const Bureaucrat& other ) {
 	if (this != &other) {
 		this->grade = other.grade;
-		std::cout << "Copy Assignment Operator  Of Bureaucrat Called!" << std::endl;
+		std::cout << "Copy Assignment Operator Of Bureaucrat Called!" << std::endl;
 	}
 	return *this;
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:51:24 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:51:25 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bureaucrat.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
@@ -8,7 +20,7 @@ int main() {
 	try {
 		std::cout << "** Create bureaucrats **" << std::endl;
 		Bureaucrat alice("Alice", 1);  // high rank
-		Bureaucrat bob("Bob", 50);     // medium rank
+		Bureaucrat bob("Bob", 150);     // medium rank
 		Bureaucrat charlie("Charlie", 150); // low rank
 
 		std::cout << "** Create forms **" << std::endl;
@@ -31,6 +43,7 @@ int main() {
 		alice.executeForm(pardon); // Should succeed
 
 		bob.executeForm(pardon);   // Should fail due to low grade
+		std::cout << "** --- End Testing --- **" << std::endl;
 
 	} catch (std::exception &e) {
 		std::cerr << "Exception caught in main: " << e.what() << std::endl;

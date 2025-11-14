@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ShrubberyCreationForm.cpp                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:51:52 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:51:53 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm( void ):
@@ -27,28 +39,28 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=( const ShrubberyCreation
 	return *this;
 }
 
-void drawASCII_Trees( int height, std::ofstream& newFile ) {
-    for (int i = 0; i < height; i++) {
-        for (int x = 0; x < height - i; x++) {
-            newFile << " ";
-        }
-        for (int j = 0; j < 2 * i + 1; j++) {
-            newFile << "*";
-        }
-        newFile << std::endl;
-    }
-    
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < height*2; j++) {
-            if (j == height)
-            {
-                newFile << "|";
-                break;
-            }
-            newFile << " ";
-        }
-        newFile << std::endl;
-    }
+void	drawASCII_Trees( int height, std::ofstream& newFile ) {
+	for (int i = 0; i < height; i++) {
+		for (int x = 0; x < height - i; x++) {
+			newFile << " ";
+		}
+		for (int j = 0; j < 2 * i + 1; j++) {
+			newFile << "*";
+		}
+		newFile << std::endl;
+	}
+	
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < height*2; j++) {
+			if (j == height)
+			{
+				newFile << "|";
+				break;
+			}
+			newFile << " ";
+		}
+		newFile << std::endl;
+	}
 }
 
 void	ShrubberyCreationForm::execute( Bureaucrat const & executor ) const{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:51:43 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:51:44 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "RobotomyRequestForm.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm( void ):
@@ -36,7 +48,7 @@ void	RobotomyRequestForm::execute( Bureaucrat const & executor ) const{
 
 	std::srand(std::time(NULL)); // seed once each program run
 	int randVal = std::rand();
-	std::cout << "RANDOME VALUE THAT HAVE BEEN USE IS:: " << randVal << std::endl;
+	std::cout << "RANDOME VALUE THAT HAVE BEEN USE IS:: " << std::endl;
 	if (randVal % 2)
 		std::cout << this->target << " HAS BEEN ROBOTOMIZED SUCCESSFULLY 50% OF THE TIME" << std::endl;
 	else

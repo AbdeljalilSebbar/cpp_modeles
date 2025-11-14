@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:50:40 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/13 21:50:41 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat( void ):
@@ -9,7 +21,7 @@ Bureaucrat::Bureaucrat( void ):
 Bureaucrat::Bureaucrat( std::string initName, int initGrade ):
 	name(initName), grade(initGrade)
 {
-	std::cout << "Constructor Of Bureaucrat Called!" << std::endl;
+	std::cout << "Constructor Of " << name << " Bureaucrat Called!" << std::endl;
 	if (initGrade < 1)
 		throw Bureaucrat::GradeTooHighException();
 	else if (initGrade > 150)
@@ -81,5 +93,5 @@ void    Bureaucrat::signForm( Form& m ) {
 }
 
 Bureaucrat::~Bureaucrat( void ) {
-	std::cout << "Destructor Of Bureaucrat Called!" << std::endl;
+	std::cout << "Destructor Of " << name << " Bureaucrat Called!" << std::endl;
 }

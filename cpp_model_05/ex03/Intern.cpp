@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Intern.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 21:52:24 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/14 10:27:54 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Intern.hpp"
 
 Intern::Intern( void )
@@ -12,9 +24,24 @@ Intern::Intern( const Intern& other ) {
 
 Intern& Intern::operator=( const Intern& other ) {
 	if (this != &other) {
-		std::cout << "Copy Assignment Operator Intern Called!!" << std::endl;        
+		std::cout << "Copy Assignment Operator Intern Called!!" << std::endl;
 	}
 	return *this;
+}
+
+AForm*	Intern::ShrubberyForm( std::string& target) {
+	AForm* newForm = NULL;
+	return (newForm = new ShrubberyCreationForm(target));
+}
+
+AForm*	Intern::RobotomyForm( std::string& target ) {
+	AForm* newForm = NULL;
+	return (newForm = new RobotomyRequestForm(target));
+}
+
+AForm*	Intern::PresidentialForm( std::string& target ) {
+	AForm* newForm = NULL;
+	return (newForm = new PresidentialPardonForm(target));
 }
 
 AForm* Intern::makeForm( std::string formName, std::string target ) {
@@ -30,25 +57,28 @@ AForm* Intern::makeForm( std::string formName, std::string target ) {
 		if (formName == forms[i])
 			break ;
 	}
-	switch (i)
+	AForm* ( Intern::*myMembersFun[] )( std::string& ) = {
+		&Intern::ShrubberyForm,
+		&Intern::RobotomyForm,
+		&Intern::PresidentialForm,
+	};
+	try
 	{
-	case 0:
-		newForm = new ShrubberyCreationForm(target);
+		newForm = (this->*myMembersFun[i])(target);
+		if (newForm == NULL)
+			throw ("Bad Allocation!?");
 		std::cout << "Intern creates " << newForm->getName() << std::endl;
-		break;
-	case 1:
-		newForm = new RobotomyRequestForm(target);
-		std::cout << "Intern creates " << newForm->getName() << std::endl;
-		break;
-	case 2:
-		newForm = new PresidentialPardonForm(target);
-		std::cout << "Intern creates " << newForm->getName() << std::endl;
-		break;
-	default:
-		std::cout << "Intern couldn’t find the form called: " << formName << std::endl;
-		break;
+		return (newForm);
 	}
-	return newForm;
+	catch(const char* error)
+	{
+		std::cerr << "EXCEPTION: " << error << '\n';
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "EXCEPTION: " << e.what() << '\n';
+	}
+	return (newForm);
 }
 
 Intern::~Intern( void )
