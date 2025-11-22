@@ -1,8 +1,8 @@
-SRC=Base.cpp  main.cpp
+SRC=A.cpp    B.cpp    Base.cpp C.cpp    main.cpp
 OBJ=$(SRC:.cpp=.o)
 CPP=c++
 CPPFLAGS=-Wall -Wextra -Werror -std=c++98
-NAME=Serialize
+NAME=realType
 
 all: $(NAME)
 

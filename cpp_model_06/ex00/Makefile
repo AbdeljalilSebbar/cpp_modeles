@@ -2,7 +2,7 @@ SRC=ScalarConverter.cpp main.cpp
 OBJ= $(SRC:.cpp=.o)
 CPPFLAGS= -Wall -Wextra -Werror -std=c++98
 CPP= c++
-NAME=ScalarConverter
+NAME=convert
 
 all: $(NAME)
 

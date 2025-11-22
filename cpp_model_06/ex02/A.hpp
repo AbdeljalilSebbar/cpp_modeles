@@ -5,8 +5,8 @@
 
 class A : public Base {
 public:
-    A();
-    ~A();
+    A( void );
+    ~A( void );
 };
 
 #endif

@@ -5,8 +5,8 @@
 
 class C : public Base {
 public:
-    C();
-    ~C();
+    C( void );
+    ~C( void );
 };
 
 #endif

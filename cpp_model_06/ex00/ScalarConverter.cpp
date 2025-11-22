@@ -39,7 +39,7 @@ int	checkIsFloat( std::string& value ) {
 
 	if (value.at(value.length() - 1) != 'f')
 		return 0;
-	if (value == "nanf" || value == "-inff" || value == "+inff")
+	if (value == "nanf" || value == "-inff" || value == "+inff" || value == "inff")
 		return 1;
 	if (value[0] == '-' || value[0] == '+')
 		i++;
@@ -62,7 +62,7 @@ int checkIsDouble(std::string& value) {
 	int count = 0;
 	bool hasDigit = false;
 
-	if (value == "nan" || value == "-inf" || value == "+inf")
+	if (value == "nan" || value == "-inf" || value == "+inf" || value == "inf")
 		return 1;
 
 	if (value[0] == '-' || value[0] == '+')
@@ -95,7 +95,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsInt(value))
 	{
-		if (str_dou < 0 || str_dou > 127)
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -114,7 +114,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsFloat(value))
 	{
-		if (str_dou < 0 || str_dou > 127 || value == "nanf")
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -139,7 +139,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsDouble(value))
 	{
-		if (str_dou < 0 || str_dou > 127 || value == "nan")
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -194,12 +194,18 @@ void	ScalarConverter::convert( std::string& value ) {
 	std::stringstream ss(tmp);
 	ss >> str_dou;
 	if (ss.fail()) {
-		if (value == "nanf" || value == "nan")
+		if (value == "nan")
 			str_dou = std::numeric_limits<double>::quiet_NaN();
-		else if (value == "-inff" || value == "-inf")
+		else if (value == "nanf")
+			str_dou = std::numeric_limits<float>::quiet_NaN();
+		else if (value == "-inff")
 			str_dou = -std::numeric_limits<float>::infinity();
-		else if (value == "+inff" || value == "+inf")
+		else if (value == "+inff" || value == "inff")
 			str_dou = std::numeric_limits<float>::infinity();
+		else if (value == "-inf")
+			str_dou = -std::numeric_limits<double>::infinity();
+		else if (value == "+inf" || value == "inf")
+			str_dou = std::numeric_limits<double>::infinity();
 	}
 	if (checkIsChar(value))
 	{
