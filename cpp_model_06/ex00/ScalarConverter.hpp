@@ -1,16 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScalarConverter.hpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/23 16:54:37 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/23 16:54:38 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
 #include <iostream>
 #include <sstream>
 #include <string>
-
-enum Type{
-	CHAR,
-	INT,
-	FLOAT,
-	DOUBLE,
-};
+#include <limits>
 
 class ScalarConverter
 {

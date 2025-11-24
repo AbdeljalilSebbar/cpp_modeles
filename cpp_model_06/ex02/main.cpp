@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/23 16:55:37 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/11/23 22:07:24 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Base.hpp"
 #include "A.hpp"
 #include "B.hpp"
@@ -37,14 +49,33 @@ void identify(Base* p) {
 }
 
 void identify(Base& p) {
-	if (dynamic_cast<A*>(&p))
+	try
+	{
+		(void)dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
-	else if (dynamic_cast<B*>(&p))
+	}
+	catch(std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	try
+	{
+		(void)dynamic_cast<B&>(p);
 		std::cout << "B" << std::endl;
-	else if (dynamic_cast<C*>(&p))
+	}
+	catch(std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	try
+	{
+		(void)dynamic_cast<C&>(p);
 		std::cout << "C" << std::endl;
-	else
-		std::cout << "Uknowing type!?" << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 }
 
 int	main(void)
@@ -61,9 +92,9 @@ int	main(void)
 	identify(p1);
 	std::cout << std::endl;
 
-	std::cout << "he actual type of the object referenced by p: 'A', 'B', or 'C': ";
+	std::cout << "he actual type of the object referenced by p: 'A', 'B', or 'C':" << std::endl;
 	identify(*p);
-	std::cout << "he actual type of the object referenced by p1: 'A', 'B', or 'C': ";
+	std::cout << "he actual type of the object referenced by p1: 'A', 'B', or 'C':" << std::endl;
 	identify(*p1);
 	std::cout << std::endl;
 
