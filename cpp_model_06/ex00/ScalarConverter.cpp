@@ -6,7 +6,7 @@
 /*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:54:31 by abdsebba          #+#    #+#             */
-/*   Updated: 2025/11/23 16:54:32 by abdsebba         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:50:10 by abdsebba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsInt(value))
 	{
-		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan" || value == "inff")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -126,7 +126,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsFloat(value))
 	{
-		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan" || value == "inff")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -136,7 +136,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 			else
 				std::cout << "char: Non displayable" << std::endl;
 		}
-		if (value == "nanf" || value == "-inff" || value == "+inff" || f > INT_MAX || f < INT_MIN)
+		if (value == "nanf" || value == "-inff" || value == "+inff" || f > INT_MAX || f < INT_MIN || value == "inff")
 			std::cout << "int: impossible" << std::endl;
 		else
 			std::cout << "int: " << static_cast<int>(f) << std::endl;
@@ -151,7 +151,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 	}
 	else if (checkIsDouble(value))
 	{
-		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan")
+		if (value == "nanf" || value == "-inff" || value == "+inff" || value == "-inf" || value == "+inf" || value == "nan" || value == "inf")
 			std::cout << "char: impossible" << std::endl;
 		else
 		{
@@ -161,7 +161,7 @@ void	ft_fixConvertBaseOnType(std::string& value, double& str_dou, float& f, char
 			else
 				std::cout << "char: Non displayable" << std::endl;
 		}
-		if (value == "nan" || value == "-inf" || value == "+inf")
+		if (value == "nan" || value == "-inf" || value == "+inf" || value == "inf")
 			std::cout << "int: impossible" << std::endl;
 		else
 			std::cout << "int: " << static_cast<int>(str_dou) << std::endl;
