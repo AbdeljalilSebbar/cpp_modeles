@@ -22,7 +22,7 @@ int main() {
 	{
 		std::cout << array[i] << std::endl;
 	}
-	::iter(array, size, makeToUpper);
+	iter<std::string>(array, size, makeToUpper);
 
 	// const int size = 11;
 	// int array[size] = {37, -12, 84, -49, 5, -23, 68, -7, 91, -34, 16};
