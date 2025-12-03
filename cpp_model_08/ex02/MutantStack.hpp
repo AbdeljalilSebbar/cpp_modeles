@@ -19,7 +19,15 @@ public:
 	MutantStack& operator=( const MutantStack& other );
 	~MutantStack( void );
 
-	
+	void	push( T value );
+	T	top( void );
+	void	pop( void );
+	unsigned int	size( void );
+
+	typedef typename std::stack<T>::iterator iterator;
+
+	void	begin( void );
+	void	end( void );
 };
 
 #endif
