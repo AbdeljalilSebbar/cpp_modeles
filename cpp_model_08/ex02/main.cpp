@@ -1,11 +1,12 @@
 #include "MutantStack.hpp"
 #include "MutantStack.tpp"
+#include <list>
 
 int main() {
 
 //**********************************************************/
 //														    /
-//				TEST STACK => STD::STACK<T>					/
+//				TEST STACK => MutantStack<T>				/
 //															/
 //**********************************************************/
 
@@ -41,7 +42,35 @@ int main() {
 //															/
 //**********************************************************/
 
-	
+	std::cout << "\n--- LIST TEST ---\n";
+
+	std::list<int> lst;
+
+	lst.push_back(5);
+	lst.push_back(17);
+	std::cout << "back element: " << lst.back() << std::endl;
+
+	lst.pop_back();
+	std::cout << "size of list: " << lst.size() << std::endl;
+
+	lst.push_back(3);
+	lst.push_back(5);
+	lst.push_back(737);
+	lst.push_back(0);
+
+	std::cout << "size of list: " << lst.size() << std::endl;
+
+	std::list<int>::iterator lit = lst.begin();
+	std::list<int>::iterator lite = lst.end();
+
+	++lit;
+	--lit;
+
+	while (lit != lite)
+	{
+		std::cout << *lit << std::endl;
+		++lit;
+	}
 
 	return 0;
 }
