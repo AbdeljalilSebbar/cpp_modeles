@@ -1,7 +1,8 @@
 #include "MutantStack.hpp"
 
 template <typename T>
-MutantStack<T>::MutantStack( void )
+MutantStack<T>::MutantStack( void ):
+	std::stack<T>()
 {
 	std::cout << "Default Constructor Called!" << std::endl;
 }
@@ -13,37 +14,28 @@ MutantStack<T>::~MutantStack( void )
 }
 
 template <typename T>
-MutantStack<T>::MutantStack( const MutantStack& other ) {
-	*this = other;
+MutantStack<T>::MutantStack( const MutantStack& other ):
+	std::stack<T>(other)
+{
 	std::cout << "Copy Assignment Constructor Called!" << std::endl;
 }
 
 template <typename T>
 MutantStack<T>& MutantStack<T>::operator=( const MutantStack& other ) {
 	if (this != &other) {
-		this->newStack = other.newStack;
+		std::stack<T>::operator=(other);
 		std::cout << "Copy Assignment Operator Called!" << std::endl;
 	}
 	return *this;
 }
 
 template <typename T>
-void	MutantStack<T>::push( T value ) {
-	this->newStack.push(value);
+typename MutantStack<T>::iterator MutantStack<T>::begin( void ) {
+	return this->c.begin();
 }
 
 template <typename T>
-T	MutantStack<T>::top( void ) {
-	return this->newStack.top();
-}
-
-template <typename T>
-void	MutantStack<T>::pop( void ) {
-	this->newStack.pop();
-}
-
-template <typename T>
-unsigned int MutantStack<T>::size( void ) {
-	return this->newStack.size();
+typename MutantStack<T>::iterator MutantStack<T>::end( void ) {
+	return this->c.end();
 }
 

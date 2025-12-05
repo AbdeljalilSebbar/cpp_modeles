@@ -55,6 +55,7 @@ unsigned int	Span::longestSpan( void ) {
 
 	return static_cast<unsigned int>(maxValue - minValue);
 }
+
 void	Span::addNumberOneCall( const std::vector<int>& newValues ) {
 	if (maxStore < spanArr.size() + newValues.size())
 		throw std::out_of_range("Can't Add More Then The Max Of This Span");

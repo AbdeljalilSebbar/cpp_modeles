@@ -13,5 +13,8 @@ int main() {
 	easyfind(numbers, searchValue);
 	easyfind(numbers, 300);
 
+	std::vector<int>::iterator it = numbers.begin();
+	it.
+
 	return 0;
 }
