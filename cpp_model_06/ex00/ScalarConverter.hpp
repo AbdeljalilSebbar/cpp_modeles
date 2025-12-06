@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <limits>
+#include <climits>
 
 class ScalarConverter
 {

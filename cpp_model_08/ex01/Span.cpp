@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Span.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/06 13:15:30 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/12/06 13:15:31 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Span.hpp"
 
 Span::Span( void ):
@@ -32,28 +44,33 @@ void	Span::addNumber( int addNum ) {
 	this->spanArr.push_back(addNum);
 }
 
-unsigned int	Span::shortestSpan( void ) {
-	if (spanArr.empty() || spanArr.size() == 1)
-		throw std::out_of_range("Bad Using Of Span");
+unsigned int Span::shortestSpan(void) {
+	if (spanArr.size() < 2)
+		throw std::out_of_range("Not enough numbers");
+
 	std::vector<int> tmp(spanArr);
 	std::sort(tmp.begin(), tmp.end());
+
 	unsigned int shortSpan = static_cast<unsigned int>(-1);
+
 	for (std::size_t i = 0; i < tmp.size() - 1; i++)
 	{
-		unsigned int sub = tmp[i + 1] - tmp[i];
-		if (sub < shortSpan)
-			shortSpan = sub;
+		long long diff = static_cast<long long>(tmp[i + 1]) - static_cast<long long>(tmp[i]);
+		if (diff < static_cast<long long>(shortSpan))
+			shortSpan = static_cast<unsigned int>(diff);
 	}
 	return shortSpan;
 }
 
-unsigned int	Span::longestSpan( void ) {
-	if (spanArr.empty() || spanArr.size() == 1)
-		throw std::out_of_range("Bad Using Of Span");
+unsigned int Span::longestSpan(void) {
+	if (spanArr.size() < 2)
+		throw std::out_of_range("Not enough numbers");
+
 	int minValue = *std::min_element(spanArr.begin(), spanArr.end());
 	int maxValue = *std::max_element(spanArr.begin(), spanArr.end());
 
-	return static_cast<unsigned int>(maxValue - minValue);
+	long long diff = static_cast<long long>(maxValue) - static_cast<long long>(minValue);
+	return static_cast<unsigned int>(diff);
 }
 
 void	Span::addNumberOneCall( const std::vector<int>& newValues ) {

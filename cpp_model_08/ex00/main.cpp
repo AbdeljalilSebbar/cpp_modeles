@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsebba <abdsebba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/06 13:14:48 by abdsebba          #+#    #+#             */
+/*   Updated: 2025/12/06 13:35:43 by abdsebba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "easyfind.hpp"
 
 int main() {
@@ -12,9 +24,6 @@ int main() {
 
 	easyfind(numbers, searchValue);
 	easyfind(numbers, 300);
-
-	std::vector<int>::iterator it = numbers.begin();
-	it.
 
 	return 0;
 }
