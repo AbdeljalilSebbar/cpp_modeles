@@ -1,92 +1,101 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange( std::string initFile, std::string initDb ):
-	file(initFile),
-	dbFormat(initDb)
+/***********
+
+99999 => invalid input
+
+************/
+
+BitcoinExchange::BitcoinExchange( std::string init ):
+	fileName(init)
 {
-	std::cout << "BTC Constructor Called!" << std::endl;
+	std::cout << "Constructor called!" << std::endl;
 }
 
 BitcoinExchange::~BitcoinExchange( void )
 {
-	std::cout << "Destructor Called!" << std::endl;
+	std::cout << "Destructor called!" << std::endl;
 }
 
-void	BitcoinExchange::parceFileInput( void ) {
-	std::string line;
-	std::string res[4];
-
-	while (std::getline(this->file, line))
-	{
-		if (ft_handeLine(line, res)) { // true mean an ERROR:
-			outClass* error = new out(NULL, NULL, NULL, true, res[0]);
-			this->container.push_back(error);
-		}
-		else {
-			outClass* out = new out(res[0], res[1], res[2], false, NULL);
-			this->container.push_back(out);
-		}
+BitcoinExchange::BitcoinExchange( const BitcoinExchange& other ) {
+	*this = other;
+}
+BitcoinExchange& BitcoinExchange::operator=( const BitcoinExchange& other ) {
+	if (this != &other) {
+		this->fileName = other.fileName;
 	}
+	return *this;
 }
 
-bool	ft_handeLine(std::string& line, std::string* res) { // true mean an ERROR:
-	if (line.length() < 14) {
-		res[0] = "ERROR: Not Enough Argments[Year-Month-Day | Value]!";
-		return true;
-	}
-	std::size_t pos = line.find(" |");
-	if (pos == std::string::npos) {
-		res[0] = "ERROR: not a valid argments";
-		return true;
-	}
-	std::string data = line.substr(0, pos);
-	std::string value = line.substr(pos + 3); // for parce the value skip 3 and if not num ERROR;
-	if (parceData(data)) {
-		res[0] = "Error: bad input => " + data;
-		return true;
-	}
+std::string trimString(const std::string& str) {
+    size_t first = str.find_first_not_of(" \t\r\n");
+    if (first == std::string::npos) return "";
+    size_t last = str.find_last_not_of(" \t\r\n");
+    return str.substr(first, (last - first + 1));
 }
-bool	checkData(std::string& value) {
-	for (std::size_t i = 0; i < value.length(); i++)
-	{
-		if (!std::isDigit(value[i])) {
-			return true;
-		}
-	}
-	return false;
-}
-bool	checkYear(std::string& value) {
-	for (std::size_t i = 0; i < value.length(); i++)
-	{
-	}
-	return false;
-}
-bool	parceData(std::string& data) {
-	std::string Year;
-	std::string Month;
-	std::string Day;
 
-	std::string arr[3];
+void	split(std::string& date, std::string& num, char delemeter, std::string line) {
 	int i = 0;
-	std::size_t pos;
-	std::size_t index = 0;
-	while ((pos = data.find("-", index)) != std::string::npos)
+	int coutDele = 0;
+	while (line[i])
 	{
-		arr[i++] = data.substr(index, pos - index);
-		index = pos + 1;
+		if (line[i] == delemeter)
+			coutDele++;
+		i++;
 	}
-	arr[i] = data.substr(index);
-	Year = arr[0];
-	Month = arr[1];
-	Day = arr[2];
-	if (Year.empty() || Month.empty() || Day.empty()) {
-		return true;
+	if (coutDele > 1)
+	{
+		size_t pos = 0;
+		date = line;
+		num = "";
+		return ;
 	}
-	if (checkData(Year) || checkData(Month) || checkData(Day)) {
-		return true;
+	size_t pos1 = 0;
+	if ((pos1 = line.find(delemeter)) != std::string::npos) {
+		date = trimString(line.substr(0, pos1));
 	}
-	if (checkYear(Year) || checkMonth(Month) || checkDay(Day)) {
-		return true;
+	num = trimString(line.substr(pos1 + 1));
+}
+
+void	BitcoinExchange::StoreInMap( std::string date, std::string num ) {
+	
+}
+
+
+void	BitcoinExchange::handleDataFile(std::string line, std::ifstream& openFile, size_t pos) {
+	int i = 0;
+	while (std::getline(openFile, line, '\n'))
+	{
+		std::string num;
+		std::string date;
+		split(date, num, ',', line);
+		this->map.insert(std::make_pair(date, num));
+		if (i == 4)
+			break;
+		i++;
 	}
-	return false;
+	
+}
+
+void	BitcoinExchange::parceFile( void ) {
+	if (fileName.empty())
+		throw std::runtime_error("Invalid File");
+	std::ifstream openFile(this->fileName);
+	if (openFile.is_open())
+	{
+		std::string line;
+		std::getline(openFile, line, '\n');
+		size_t pos = 0;
+		if ((pos = line.find(',')) != std::string::npos)
+			this->handleDataFile(line, openFile, pos);
+		else if (line.find('|') != std::string::npos)
+			;// handleInputFile();
+		else
+			throw std::runtime_error("Invalid File " + this->fileName);
+	}
+	else
+	{
+		throw std::runtime_error("Couldn't Open file " + this->fileName);
+	}
+	
 }
