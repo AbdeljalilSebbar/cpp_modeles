@@ -19,8 +19,8 @@ public:
 	BitcoinExchange& operator=( const BitcoinExchange& other );
 
 	void	parceFile( void );
-	void	StoreInMap( std::string date, std::string num );
-	void	handleDataFile(std::string line, std::ifstream& openFile, size_t pos);
+	void	handleDataFile(std::string line, std::ifstream& openFile);
+	void	handleInputFile(std::ifstream& openFile, std::string line);
 };
 
 
