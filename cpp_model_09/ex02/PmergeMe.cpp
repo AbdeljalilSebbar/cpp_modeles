@@ -116,9 +116,16 @@ void PmergeMe::handleInsertionProcess(std::vector<int>& vPend) {
 	// std::cout << "size main chain (first part): " << this->mainChain[0].at(0) << std::endl;
 	// for (size_t i = 0; i < this->mainChain[0].size(); i++)
 	// {
-	// 	std::cout << this->pendChain[0].at(i) << std::endl;
+		// std::cout << this->pendChain[1].at(i) << std::endl;
 	// }
-	
+}
+
+void	PmergeMe::handleMainPendChain( void ) {
+	std::
+	std::vector<std::vector<int> > currentMain = this->mainChain;
+	this->mainChain.clear();
+	std::vector<int> tmp = this->pendChain
+	this->mainChain[0].push_back();
 }
 
 void	PmergeMe::startCreatePairs( std::vector<std::string>& values ) {
@@ -158,6 +165,11 @@ void	PmergeMe::startCreatePairs( std::vector<std::string>& values ) {
 	// this->numbers[0]; // main_chain
 	// pairs; // pend_chain
 	handleInsertionProcess(pairs);
+	handleMainPendChain();
+	for (size_t i = 0; i < this->mainChain[0].size(); i++)
+	{
+		std::cout << this->mainChain[0].at(i) << std::endl;
+	}
 	
 }
 

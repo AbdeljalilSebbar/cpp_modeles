@@ -24,6 +24,7 @@ public:
 	void	startCreatePairs( std::vector<std::string>& values );
 	void	mergeSortRecursion( void );
 	void	handleInsertionProcess(std::vector<int>& pendChain);
+	void	handleMainPendChain( void );
 	void	printOutput( void );
 };
 
