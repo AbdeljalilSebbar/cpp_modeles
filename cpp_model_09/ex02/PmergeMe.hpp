@@ -3,29 +3,39 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
+#include <string>
 #include <sstream>
-// #include <>
+#include <algorithm>
+#include <ctime>
+#include <sys/time.h>
+#include <utility>
 
 class PmergeMe
 {
-private:
-	std::string input;
-	std::vector<std::vector<int> > numbers;
-	std::vector<std::vector<int> > mainChain;
-	std::vector<std::vector<int> > pendChain;
+	private:
+		std::string input;
+		std::vector<int> sortedNumbersVector;
+		std::deque<int> sortedNumbersDeque;
 
-public:
-	PmergeMe( std::string init );
-	PmergeMe( const PmergeMe& other );
-	PmergeMe&	operator=( const PmergeMe& other );
-	~PmergeMe();
+		long long durationVector;
+		long long durationDeque;
+		void startSortingVector( std::vector<std::string>& values );
+		void startSortingDeque( std::vector<std::string>& values );
+		void fordJohnsonSortVector( std::vector<int>& arr );
+		void fordJohnsonSortDeque( std::deque<int>& arr );
 
-	void	parceInput( void );
-	void	startCreatePairs( std::vector<std::string>& values );
-	void	mergeSortRecursion( void );
-	void	handleInsertionProcess(std::vector<int>& pendChain);
-	void	handleMainPendChain( void );
-	void	printOutput( void );
+	public:
+		PmergeMe( std::string init );
+		PmergeMe( const PmergeMe& other );
+		PmergeMe& operator=( const PmergeMe& other );
+		~PmergeMe( void );
+
+		void parceInput( void );
+		void printOutput( void );
 };
+
+bool	checkInput( std::string str );
+bool	ft_atoi( std::string str );
 
 #endif

@@ -13,7 +13,6 @@ int main(int ac, char* avp[]) {
 		if (i + 1 < ac)
 			val += " ";
 	}
-	// std::cout << val << std::endl;
 	if (val.empty())
 	{
 		std::cerr << "Error" << std::endl;
