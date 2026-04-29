@@ -54,11 +54,11 @@ bool	checkInput( std::string str ) {
 	return true;
 }
 
-long long getCurrentTime( void )
+double getCurrentTime(void)
 {
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000000LL) + tv.tv_usec);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
 void	PmergeMe::printOutput( void ) {
@@ -70,8 +70,9 @@ void	PmergeMe::printOutput( void ) {
 			std::cout << " ";
 	}
 	std::cout << std::endl;
-	std::cout << "Time to process a range of " << this->sortedNumbersVector.size() << " elements with std::vector : " << (float)this->durationVector << " us" << std::endl;
-	std::cout << "Time to process a range of " << this->sortedNumbersDeque.size() << " elements with std::deque : " << (float)this->durationDeque << " us" << std::endl;
+	std::cout << std::fixed << std::setprecision(5);
+	std::cout << "Time to process a range of " << this->sortedNumbersVector.size() << " elements with std::vector : " << this->durationVector << " us" << std::endl;
+	std::cout << "Time to process a range of " << this->sortedNumbersDeque.size() << " elements with std::deque : " << this->durationDeque << " us" << std::endl;
 }
 
 std::vector<size_t> generateJacobsthal(size_t n) {
@@ -102,13 +103,13 @@ void	PmergeMe::fordJohnsonSortVector(std::vector<int>& arr) {
 		straggler.push_back(arr[arr.size() - 1]);
 	
 	std::vector<int> winners;
-	for (size_t i = 0; i < pairs.size(); ++i)
+	for (size_t i = 0; i < pairs.size(); i++)
 		winners.push_back(pairs[i].first);
 	
 	fordJohnsonSortVector(winners);
 	
 	std::vector<int> pend;
-	for (size_t i = 0; i < pairs.size(); ++i)
+	for (size_t i = 0; i < pairs.size(); i++)
 		pend.push_back(pairs[i].second);
 	
 	std::vector<int> mainChain = winners;
@@ -121,11 +122,11 @@ void	PmergeMe::fordJohnsonSortVector(std::vector<int>& arr) {
 	std::vector<size_t> jacobsthal = generateJacobsthal(pend.size());
 	std::vector<bool> inserted(pend.size(), false);
 	
-	for (size_t k = 2; k < jacobsthal.size(); ++k) {
+	for (size_t k = 2; k < jacobsthal.size(); k++) {
 		size_t idx = jacobsthal[k];
 		if (idx > pend.size())
 			idx = pend.size();
-		for (size_t i = idx; i > 0; --i) {
+		for (size_t i = idx; i > 0; i--) {
 			if (i - 1 < pend.size() && !inserted[i - 1]) {
 				int value = pend[i - 1];
 				std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
@@ -135,7 +136,7 @@ void	PmergeMe::fordJohnsonSortVector(std::vector<int>& arr) {
 		}
 	}
 	
-	for (size_t i = 0; i < pend.size(); ++i) {
+	for (size_t i = 0; i < pend.size(); i++) {
 		if (!inserted[i]) {
 			int value = pend[i];
 			std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
@@ -222,24 +223,24 @@ void	PmergeMe::fordJohnsonSortDeque( std::deque<int>& numbers ) {
 
 void	PmergeMe::startSortingVector(std::vector<std::string>& values) {
 	std::vector<int> numbers;
-	for (std::size_t i = 0; i < values.size(); ++i) {
+	for (std::size_t i = 0; i < values.size(); i++) {
 		numbers.push_back(std::atoi(values[i].c_str()));
 	}
-	long long startTime = getCurrentTime();
+	double startTime = getCurrentTime();
 	this->fordJohnsonSortVector(numbers);
-	long long endTime = getCurrentTime();
+	double endTime = getCurrentTime();
 	this->durationVector = endTime - startTime;
 	this->sortedNumbersVector = numbers;
 }
 
 void	PmergeMe::startSortingDeque(std::vector<std::string>& values) {
 	std::deque<int> numbers;
-	for (std::size_t i = 0; i < values.size(); ++i) {
+	for (std::size_t i = 0; i < values.size(); i++) {
 		numbers.push_back(std::atoi(values[i].c_str()));
 	}
-	long long startTime = getCurrentTime();
+	double startTime = getCurrentTime();
 	this->fordJohnsonSortDeque(numbers);
-	long long endTime = getCurrentTime();
+	double endTime = getCurrentTime();
 	this->durationDeque = endTime - startTime;
 	this->sortedNumbersDeque = numbers;
 }

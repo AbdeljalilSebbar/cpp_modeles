@@ -10,6 +10,7 @@
 #include <ctime>
 #include <sys/time.h>
 #include <utility>
+#include <iomanip>
 
 class PmergeMe
 {
@@ -18,8 +19,8 @@ class PmergeMe
 		std::vector<int> sortedNumbersVector;
 		std::deque<int> sortedNumbersDeque;
 
-		long long durationVector;
-		long long durationDeque;
+		double durationVector;
+		double durationDeque;
 		void startSortingVector( std::vector<std::string>& values );
 		void startSortingDeque( std::vector<std::string>& values );
 		void fordJohnsonSortVector( std::vector<int>& arr );
