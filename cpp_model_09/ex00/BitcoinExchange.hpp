@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <climits>
 #include <exception>
 #include <map>
 
