@@ -107,6 +107,20 @@ void	BitcoinExchange::handleDataFile(std::string line, std::ifstream& openFile) 
 	}
 }
 
+int ft_atoi(std::string str) {
+	long long res = 0;
+	for (std::size_t i = 0; i < str.size(); i++) {
+		if (std::isdigit(str[i])) {
+			res = res * 10 + (str[i] - '0');
+			if (res > INT_MAX)
+				return INT_MAX;
+			else if (res < INT_MIN)
+				return -1;
+		}
+	}
+	return res;
+}
+
 bool	ValidDate(std::string date) {
 	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
 		return false;
@@ -142,13 +156,14 @@ void	BitcoinExchange::handleInputFile(std::ifstream& openFile, std::string line)
 			std::cout << "Error: bad input1 => " << line << std::endl;
 			continue ;
 		}
-		char* end;
-		double lastValue = std::strtod(value.c_str(), &end);
-		if (*end != '\0' && !isspace(*end))
-		{
-			std::cout << "Error: bad input3 => " << line << std::endl;
-			continue ;
-		}
+		// char* end;
+		// double lastValue = std::strtod(value.c_str(), &end);
+		// if (*end != '\0' && !isspace(*end))
+		// {
+		// 	std::cout << "Error: bad input3 => " << line << std::endl;
+		// 	continue ;
+		// }
+		int lastValue = ft_atoi(value);
 		if (lastValue < 0)
 		{
 			std::cout << "Error: not a positive number." << std::endl;
