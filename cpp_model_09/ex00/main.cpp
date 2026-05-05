@@ -19,7 +19,7 @@ int main(int ac, char* avp[]) {
 		try {
 			bit.parceFile();
 		}catch( std::exception& e ){
-			std::cout << "ERROR: " << e.what() << std::endl;
+			std::cerr << "ERROR: " << e.what() << std::endl;
 		}
 	}
 	else

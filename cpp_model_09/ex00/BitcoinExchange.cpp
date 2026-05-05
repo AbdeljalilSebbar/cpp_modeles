@@ -148,30 +148,23 @@ void	BitcoinExchange::handleInputFile(std::ifstream& openFile, std::string line)
 		split(date, value, '|', line);
 		if (!ValidDate(date))
 		{
-			std::cout << "Error: bad input2 => " << date << std::endl;
+			std::cerr << "Error: bad input => " << date << std::endl;
 			continue ;
 		}
 		if (value.empty())
 		{
-			std::cout << "Error: bad input1 => " << line << std::endl;
+			std::cerr << "Error: bad input => " << line << std::endl;
 			continue ;
 		}
-		// char* end;
-		// double lastValue = std::strtod(value.c_str(), &end);
-		// if (*end != '\0' && !isspace(*end))
-		// {
-		// 	std::cout << "Error: bad input3 => " << line << std::endl;
-		// 	continue ;
-		// }
 		int lastValue = ft_atoi(value);
 		if (lastValue < 0)
 		{
-			std::cout << "Error: not a positive number." << std::endl;
+			std::cerr << "Error: not a positive number." << std::endl;
             continue;
 		}
 		if (lastValue > 1000)
 		{
-			std::cout << "Error: too large a number." << std::endl;
+			std::cerr << "Error: too large a number." << std::endl;
             continue;
 		}
 		std::map<std::string, std::string>::iterator it = this->map.lower_bound(date);
@@ -181,7 +174,7 @@ void	BitcoinExchange::handleInputFile(std::ifstream& openFile, std::string line)
 		if (it != this->map.end() && (it->first <= date)) {
 			std::cout << date << " => " << lastValue << " = " << (lastValue * std::atof(it->second.c_str())) << std::endl;
 		} else {
-			std::cout << "Error: date predates database." << std::endl;
+			std::cerr << "Error: date predates database." << std::endl;
 		}
 	}
 }

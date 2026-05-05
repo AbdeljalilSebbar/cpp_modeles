@@ -1,7 +1,7 @@
 SRC= PmergeMe.cpp main.cpp
 OBJ=$(SRC:.cpp=.o)
 CPP=c++
-CPPFLAGS=-Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
+CPPFLAGS=-Wall -Wextra -Werror -std=c++98
 NAME=PmergeMe
 
 all: $(NAME)
